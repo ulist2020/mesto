@@ -1,0 +1,19 @@
+.popup__autor-profession{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    width: 358px;
+    margin: 0;
+    border: none;
+    padding: 0;
+}
+
+@media screen and (max-width: 900px){
+    .popup__autor-profession{
+        width: 238px;
+    }
+
+}
+    
