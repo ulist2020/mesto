@@ -3,8 +3,12 @@
     height: 19px;
     background: url(../../../images/like.png);
     cursor: pointer;
+    border: none;
+    outline: none;
+    transition: opacity linear 0.5s;
 }
 
 .foto__card-like:hover{
     opacity: 0.5;
 }
+

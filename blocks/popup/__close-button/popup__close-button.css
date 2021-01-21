@@ -4,11 +4,13 @@
     top: -45px;
     width: 40px;
     height: 40px;
-    background-image: url(/images/close_icon.png);
+    background-image: url(../../../images/close_icon.png);
     background-color:rgba(0, 0, 0, 0.5);
     border: 0;
     background-size: cover;
     cursor: pointer;
+    transition: opacity linear 0.5s;
+
 }
 .popup__close-button:hover{
     opacity: 0.6;

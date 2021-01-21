@@ -1,6 +1,7 @@
 .header__logo {
     width: 142px;
     height: 33px;
+    margin-bottom: 41px;
     background-image: url('../../../images/logo.svg');
     background-size: contain;
 }
@@ -10,6 +11,7 @@
         width: 103px;
         height: 24px;
         margin-left: 27px;
+        margin-bottom: 32px;
     }
 
 }
