@@ -8,6 +8,9 @@
     margin: 0;
     border: none;
     padding: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    height: 40px;
+    margin-top: 17px;
 }
 
 @media screen and (max-width: 900px){

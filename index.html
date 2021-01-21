@@ -6,95 +6,95 @@
   <title>Mesto Russia</title>
   <link rel="stylesheet" href="./pages/index.css">
 </head>
-<body class="b-page">
+<body>
+    <div class="b-page">
     <div class="page">
         <header class="header">
             <div class="header__logo"></div>
-            <div class="header__line"></div>
         </header>
     
-        <section class="profile">
-            <div class="profile__flex">
-                <img class="profile__avatar" src="./images/avatar.jpg" alt="Аватарка">
-                <div class="profile__info">
-                    <div class="profile__edit">
-                        <h1 class="profile__edit-autor">Жак-Ив Кусто</h1>
-                        <button class="profile__edit-button"></button>
+        <main class="content">
+            <section class="profile">
+                <div class="profile__flex">
+                    <img class="profile__avatar" src="./images/avatar.jpg" alt="Аватарка">
+                    <div class="profile__info">
+                        <div class="profile__edit">
+                            <h1 class="profile__edit-autor">Жак-Ив Кусто</h1>
+                            <button class="profile__edit-button" type="button" aria-label="Редактирование профиля"></button>
+                        </div>
+                        <h2 class="profile__profession">Исследователь океана</h2>
                     </div>
-                    <p class="profile__profession">Исследователь океана</p>
-                </div>
-            </div>    
-                <button class="profile__button"></button>
-        </section>
+                </div>    
+                    <button class="profile__button" type="button" aria-label="Добавить фотографии"></button>
+            </section>
 
-        <section class="foto">
-            <div class="foto__grid">
-                <div class="foto__card">
-                    <img class="foto__card-place" src="./images/novgorod.jpg" alt="Великий Новгород">
-                    <div class="foto__flex">
-                        <p class="foto__card-discprition">Великий Новгород</p>
-                        <div class="foto__card-like"></div>
-                    </div>
-                </div>
-            
-                <div class="foto__card">
-                    <img class="foto__card-place" src="./images/elbrus.jpg" alt="Гора Эльбрус">
-                    <div class="foto__flex">
-                        <p class="foto__card-discprition">Гора Эльбрус</p>
-                        <div class="foto__card-like"></div>
-                    </div>
-                </div>
+            <section class="foto">
+                <ul class="foto__grid">
+                    <li class="foto__card">
+                        <img class="foto__card-place" src="./images/novgorod.jpg" alt="Древняя крепость в Великом Новгороде">
+                        <div class="foto__flex">
+                            <h2 class="foto__card-discprition">Великий Новгород</h2>
+                            <button class="foto__card-like"  type="button" aria-label="Поставить лайк"></button>
+                        </div>
+                    </li>
+                
+                    <li class="foto__card">
+                        <img class="foto__card-place" src="./images/elbrus.jpg" alt="Гора Эльбрус">
+                        <div class="foto__flex">
+                            <h2 class="foto__card-discprition">Гора Эльбрус</h2>
+                            <button class="foto__card-like" type="button" aria-label="Поставить лайк"></button>
+                        </div>
+                    </li>
 
-                <div class="foto__card">
-                    <img class="foto__card-place" src="./images/donbay.png" alt="Домбай">
-                    <div class="foto__flex">
-                        <p class="foto__card-discprition">Домбай</p>
-                        <div class="foto__card-like"></div>
-                    </div>
-                </div>
+                    <li class="foto__card">
+                        <img class="foto__card-place" src="./images/donbay.png" alt="Горы Домбая">
+                        <div class="foto__flex">
+                            <h2 class="foto__card-discprition">Домбай</h2>
+                            <button class="foto__card-like" type="button" aria-label="Поставить лайк"></button>
+                        </div>
+                    </li>
 
-                <div class="foto__card">
-                    <img class="foto__card-place" src="./images/sevastopol.jpg" alt="Севастополь">
-                    <div class="foto__flex">
-                        <p class="foto__card-discprition">Севастополь</p>
-                        <div class="foto__card-like"></div>
-                    </div>
-                </div>
+                    <li class="foto__card">
+                        <img class="foto__card-place" src="./images/sevastopol.jpg" alt="Побережье в Севастополе">
+                        <div class="foto__flex">
+                            <h2 class="foto__card-discprition">Севастополь</h2>
+                            <button class="foto__card-like" type="button" aria-label="Поставить лайк"></button>
+                        </div>
+                    </li>
 
-                <div class="foto__card">
-                    <img class="foto__card-place" src="./images/novosibirsk.jpg" alt="Новосибирск">
-                    <div class="foto__flex">
-                        <p class="foto__card-discprition">Новосибирск</p>
-                        <div class="foto__card-like"></div>
-                    </div>
-                </div>
+                    <li class="foto__card">
+                        <img class="foto__card-place" src="./images/novosibirsk.jpg" alt="Река в Новосибирске">
+                        <div class="foto__flex">
+                            <h2 class="foto__card-discprition">Новосибирск</h2>
+                            <button class="foto__card-like" type="button" aria-label="Поставить лайк"></button>
+                        </div>
+                    </li>
 
-                <div class="foto__card">
-                    <img class="foto__card-place" src="./images/karachaevsc.jpg" alt="Карачаево-Черкессия">
-                    <div class="foto__flex">
-                        <p class="foto__card-discprition">Карачаево-Черкессия</p>
-                        <div class="foto__card-like"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+                    <li class="foto__card">
+                        <img class="foto__card-place" src="./images/karachaevsc.jpg" alt="Древняя крепость в Карачаево-Черкессии">
+                        <div class="foto__flex">
+                            <h2 class="foto__card-discprition">Карачаево-Черкессия</h2>
+                            <button class="foto__card-like" type="button" aria-label="Поставить лайк"></button>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </main>
         <footer class="footer">
             <p class="footer__mesto">© 2020 Mesto Russia</p>
         </footer>
 
         <div class="popup">
-            <form class="popup__container">
-                <button class="popup__close-button"></button>
-                <h2 class="popup__header">Редактировать профиль</h2>
-                <input class="popup__autor-name" type="text">
-                <div class="popup__line"></div>
-                <input class="popup__autor-profession" type="text">
-                <div class="popup__line"></div>
-                <button class="popup__button" type="submit">Сохранить</button>
+            <form class="popup__container" method="POST" name="popupForm">
+                <button class="popup__close-button" type="button" aria-label="Закрыть окно редактирования"></button>
+                <h3 class="popup__header">Редактировать профиль</h3>
+                <input class="popup__autor-name" type="text" placeholder="Имя" name="autor">
+                <input class="popup__autor-profession" type="text" placeholder="О себе" name="profession">
+                <button class="popup__button" type="submit" aria-label="Сохранить">Сохранить</button>
             </form>
         </div>
     </div>
-    <script src="./script.js"></script>
+    <script src="./skripts/script.js"></script>
+</div>
 </body>
 </html>
