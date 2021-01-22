@@ -1,4 +1,4 @@
-.popup__autor-name{
+.popup__author-name{
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -13,7 +13,7 @@
 }
 
 @media screen and (max-width: 900px){
-    .popup__autor-name{
+    .popup__author-name{
         width: 238px;
     }
 

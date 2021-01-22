@@ -1,4 +1,4 @@
-.foto__card-like{
+.photo__card-like{
     width: 22px;
     height: 19px;
     background: url(../../../images/like.png);
@@ -8,7 +8,7 @@
     transition: opacity linear 0.5s;
 }
 
-.foto__card-like:hover{
+.photo__card-like:hover{
     opacity: 0.5;
 }
 

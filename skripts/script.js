@@ -1,25 +1,25 @@
 
 let clickEditButton = document.querySelector('.profile__edit-button');
 let popupWindow = document.querySelector('.popup');
-let profileEditAutor = document.querySelector('.profile__edit-autor');
-let popupAutorName = document.querySelector('.popup__autor-name');
+let profileEditAuthor = document.querySelector('.profile__edit-author');
+let popupAuthorName = document.querySelector('.popup__author-name');
 let profileProfession = document.querySelector('.profile__profession');
-let popupAutorProfession = document.querySelector('.popup__autor-profession');
+let popupAuthorProfession = document.querySelector('.popup__author-profession');
 
 let formElement = document.querySelector('.popup__container');
 
 let clickCloseButton = document.querySelector('.popup__close-button');
 
 function openPopup(){
+    popupAuthorName.value = profileEditAuthor.textContent;
+    popupAuthorProfession.value = profileProfession.textContent;
     popupWindow.classList.add('popup_opened');
-    popupAutorName.value = profileEditAutor.textContent;
-    popupAutorProfession.value = profileProfession.textContent;
 }
 
 function handleFormSubmit (evt){
     evt.preventDefault();
-    profileEditAutor.textContent = popupAutorName.value;
-    profileProfession.textContent = popupAutorProfession.value;
+    profileEditAuthor.textContent = popupAuthorName.value;
+    profileProfession.textContent = popupAuthorProfession.value;
     popupWindow.classList.remove('popup_opened');
 }
 
