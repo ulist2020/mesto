@@ -1,4 +1,4 @@
-.profile__edit-autor{
+.profile__edit-author{
     font-style: normal;
     font-weight: 500;
     font-size: 42px;
@@ -11,7 +11,7 @@
 }
 
 @media screen and (max-width: 900px){
-    .profile__edit-autor{
+    .profile__edit-author{
         font-size: 27px;
         line-height: 33px;
         margin: 22px 0 14px 0;

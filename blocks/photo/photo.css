@@ -1,9 +1,9 @@
-.foto{
+.photo{
     margin-top: 48px;
 }
 
 @media screen and (max-width: 900px){
-    .foto{
+    .photo{
         margin: 36px 19px auto 19px;
     }
 
