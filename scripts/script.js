@@ -16,15 +16,15 @@ function openPopup(){
     popupWindow.classList.add('popup_opened');
 }
 
+function closePopup(){
+    popupWindow.classList.remove('popup_opened');
+}
+
 function handleFormSubmit (evt){
     evt.preventDefault();
     profileEditAuthor.textContent = popupAuthorName.value;
     profileProfession.textContent = popupAuthorProfession.value;
-    popupWindow.classList.remove('popup_opened');
-}
-
-function closePopup(){
-    popupWindow.classList.remove('popup_opened');
+    closePopup();
 }
 
 clickEditButton.addEventListener('click', openPopup);
