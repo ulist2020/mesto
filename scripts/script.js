@@ -76,8 +76,6 @@ formAddImageElement.addEventListener('submit', handleAddImageFormSubmit);
 
 function openAddImagePopup(){
   popupAddImageContainer.classList.add('popup-addimage_opened');
-  // popupAddImageContainer.querySelector('.popup-addimage__image-name').value = '';
-  // popupAddImageContainer.querySelector('.popup-addimage__image-link').value = '';
 }
 
 function handleAddImageFormSubmit (evt){
@@ -141,61 +139,3 @@ function closeLargeImage(){
 }
 
 
-
-
-
-
-
-function openContentPopup() {
-    popupContainer.classList.add('popup_opened');
-    popupWindow.replaceWith(popupContainer);
-
-    popupContainer.querySelector('.popup__header').textContent = 'Новое место';
-    popupContainer.querySelector('.popup__button').textContent = 'Создать';
-
-    document.getElementsByName('author')[0].placeholder = 'Название';
-    document.getElementsByName('profession')[0].placeholder = 'Ссылка на картинку';
-
-    let clickCloseButton = document.querySelector('.popup__close-button');
-    clickCloseButton.addEventListener('click', closePopup);
-   
-   
-    //let formElement = document.querySelector('.popup__container');
-    //formElement.addEventListener('submit', photoAdd);
-}
-
-function closePopup(){
-    popupContainer.classList.remove('popup_opened');
-}
-
-
-
-  //const imageTemplate = document.querySelector('#image-template').content;
-//const imageContainer = popupTemplate.querySelector('.popup-image').cloneNode(true);
-
-
-
-// let popupWindow = document.querySelector('.popup');
-
-// let popupAuthorName = document.querySelector('.popup__author-name');
-// let popupAuthorProfession = document.querySelector('.popup__author-profession');
-// let clickAddButton = document.querySelector('.profile__button'); 
-
-// let photoCardDiscprition = document.querySelector('.photo__card-discprition');
-// let photoCardPlace = document.querySelector('.photo__card-place');
-
-// const popupTemplate = document.querySelector('#popup-template').content;
-
-
-// const buttonCreate = popupContainer.querySelector('.popup__button');
-
-// const image = document.querySelector('.popup-image__image');
-// const description = document.querySelector('.popup-image__description');
-// const cardDescription = document.querySelector('.photo__card-discprition');
-
-
-
-
-
-// buttonCreate.addEventListener('click', photoAdd);
-// clickAddButton.addEventListener('click', openContentPopup); 

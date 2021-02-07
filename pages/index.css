@@ -42,4 +42,13 @@
 @import url(../blocks/popup-image/popup-image.css);
 @import url(../blocks/popup-image/__image/_opened/popup-image_opened.css);
 
+@keyframes show{
+    0%{
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
 
