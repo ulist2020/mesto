@@ -29,53 +29,6 @@
 
                 <section class="photo">
                     <ul class="photo__grid">
-                        <li class="photo__card">
-                            <img class="photo__card-place" src="./images/novgorod.jpg" alt="Древняя крепость в Великом Новгороде">
-                            <div class="photo__flex">
-                                <h2 class="photo__card-discprition">Великий Новгород</h2>
-                                <button class="photo__card-like"  type="button" aria-label="Поставить лайк"></button>
-                            </div>
-                        </li>
-                    
-                        <li class="photo__card">
-                            <img class="photo__card-place" src="./images/elbrus.jpg" alt="Гора Эльбрус">
-                            <div class="photo__flex">
-                                <h2 class="photo__card-discprition">Гора Эльбрус</h2>
-                                <button class="photo__card-like" type="button" aria-label="Поставить лайк"></button>
-                            </div>
-                        </li>
-
-                        <li class="photo__card">
-                            <img class="photo__card-place" src="./images/donbay.png" alt="Горы Домбая">
-                            <div class="photo__flex">
-                                <h2 class="photo__card-discprition">Домбай</h2>
-                                <button class="photo__card-like" type="button" aria-label="Поставить лайк"></button>
-                            </div>
-                        </li>
-
-                        <li class="photo__card">
-                            <img class="photo__card-place" src="./images/sevastopol.jpg" alt="Побережье в Севастополе">
-                            <div class="photo__flex">
-                                <h2 class="photo__card-discprition">Севастополь</h2>
-                                <button class="photo__card-like" type="button" aria-label="Поставить лайк"></button>
-                            </div>
-                        </li>
-
-                        <li class="photo__card">
-                            <img class="photo__card-place" src="./images/novosibirsk.jpg" alt="Река в Новосибирске">
-                            <div class="photo__flex">
-                                <h2 class="photo__card-discprition">Новосибирск</h2>
-                                <button class="photo__card-like" type="button" aria-label="Поставить лайк"></button>
-                            </div>
-                        </li>
-
-                        <li class="photo__card">
-                            <img class="photo__card-place" src="./images/karachaevsc.jpg" alt="Древняя крепость в Карачаево-Черкессии">
-                            <div class="photo__flex">
-                                <h2 class="photo__card-discprition">Карачаево-Черкессия</h2>
-                                <button class="photo__card-like" type="button" aria-label="Поставить лайк"></button>
-                            </div>
-                        </li>
                     </ul>
                 </section>
             </main>
@@ -83,15 +36,60 @@
                 <p class="footer__mesto">© 2020 Mesto Russia</p>
             </footer>
 
-            <div class="popup">
+            <div class="popup"></div>
+
+            <template id="popup-template">
+                <div class="popup"> 
                 <form class="popup__container" method="POST" name="popupForm">
                     <button class="popup__close-button" type="reset" aria-label="Закрыть окно редактирования"></button>
-                    <h3 class="popup__header">Редактировать профиль</h3>
-                    <input class="popup__author-name" type="text" placeholder="Имя" name="author">
-                    <input class="popup__author-profession" type="text" placeholder="О себе" name="profession">
-                    <button class="popup__button" type="submit" aria-label="Сохранить">Сохранить</button>
+                    <h3 class="popup__header"></h3>
+                    <input class="popup__author-name" type="text" placeholder="" name="author">
+                    <input class="popup__author-profession" type="text" placeholder="" name="profession">
+                    <button class="popup__button" type="submit" aria-label="Сохранить"></button>
                 </form>
             </div>
+            </template>
+           
+            <template id="photo-template">
+                <li class="photo__card">
+                    <img class="photo__card-place" src="" alt="">
+                    <button class="photo__delete-icon"  type="button" aria-label="Удалить фото"></button>
+                    <div class="photo__flex">
+                        <h2 class="photo__card-discprition"></h2>
+                        <button class="photo__card-like" type="button" aria-label="Поставить лайк"></button>
+                    </div>
+                </li>
+            </template>
+
+            <div class="popup-author"> 
+                <form class="popup-author__container" method="POST" name="PopupAuthorForm">
+                    <button class="popup-author__close-button" type="reset" aria-label="Закрыть окно редактирования"></button>
+                    <h3 class="popup-author__header">Редактировать профиль</h3>
+                    <input class="popup-author__author-name" type="text" placeholder="Имя" name="author">
+                    <input class="popup-author__author-profession" type="text" placeholder="О себе" name="profession">
+                    <button class="popup-author__button" type="submit" aria-label="Сохранить">Сохранить</button>
+                </form>
+            </div>
+
+            <div class="popup-addimage"> 
+                <form class="popup-addimage__container" method="POST" name="PopupAddimageForm">
+                    <button class="popup-addimage__close-button" type="reset" aria-label="Закрыть окно"></button>
+                    <h3 class="popup-addimage__header">Редактировать профиль</h3>
+                    <input class="popup-addimage__author-name" type="text" placeholder="Имя" name="author">
+                    <input class="popup-addimage__author-profession" type="text" placeholder="О себе" name="profession">
+                    <button class="popup-addimage__button" type="submit" aria-label="Сохранить">Сохранить</button>
+                </form>
+            </div>
+
+            <div class="popup-image">
+                <div class="popup-image__block">
+                    <button class="popup-image__close" type="reset" aria-label="Закрыть"></button>
+                    <img class="popup-image__image" src="" alt="">
+                    <p class="popup-image__description"></p>
+                </div>
+            </div>
+            
+        </div>
         </div>
         <script src="./scripts/script.js"></script>
     </body>

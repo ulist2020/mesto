@@ -1,0 +1,17 @@
+.photo__delete-icon{
+    position: absolute;
+    left: 249px;
+    top: 18px;
+    width: 18px;
+    height: 19px;
+    background: url(../../../images/delete-icon.png);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: opacity linear 0.5s;
+   
+}
+
+.photo__delete-icon:hover{
+    opacity: 0.5;
+}
