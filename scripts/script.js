@@ -28,30 +28,32 @@ const initialCards = [
 const photoGrid = document.querySelector('.photo__grid');
 const photoTemplate = document.querySelector('#photo-template').content;
 
-fillCards();
+const popupAuthorContainer = document.querySelector('.popup-author');
+const clickEditButton = document.querySelector('.profile__edit-button');
+const clickAuthorCloseButton = document.querySelector('.popup-author__close-button');
+const formAuthorElement = document.querySelector('.popup-author__container');
+const profileEditAuthor = document.querySelector('.profile__edit-author');
+const profileProfession = document.querySelector('.profile__profession');
+
+const popupAddImageContainer = document.querySelector('.popup-addimage');
+const clickAddImageButton = document.querySelector('.profile__button');
+const clickAddImageCloseButton = document.querySelector('.popup-addimage__close-button');
+const formAddImageElement = document.querySelector('.popup-addimage__container');
+
+const popupImage = document.querySelector('.popup-image');
+const closeImage = document.querySelector('.popup-image__close');
+
 
 function fillCards(){
-  const nameOnly = initialCards.map(CardAdd);
+  const nameOnly = initialCards.map(addCard);
   photoGrid.append(...nameOnly);
 }
 
-
 // Форма редактирования автора
-const popupAuthorContainer = document.querySelector('.popup-author');
-let clickEditButton = document.querySelector('.profile__edit-button');
-clickEditButton.addEventListener('click', openAuthorPopup);
-let clickAuthorCloseButton = document.querySelector('.popup-author__close-button');
-clickAuthorCloseButton.addEventListener('click', closeAuthorPopup);
-let formAuthorElement = document.querySelector('.popup-author__container');
-formAuthorElement.addEventListener('submit', handleAuthorFormSubmit);
-
-let profileEditAuthor = document.querySelector('.profile__edit-author');
-let profileProfession = document.querySelector('.profile__profession');
-
 function openAuthorPopup(){
-    popupAuthorContainer.classList.add('popup-author_opened');
-    popupAuthorContainer.querySelector('.popup-author__author-name').value = profileEditAuthor.textContent;
-    popupAuthorContainer.querySelector('.popup-author__author-profession').value = profileProfession.textContent;
+  popupAuthorContainer.classList.add('popup-author_opened');
+  popupAuthorContainer.querySelector('.popup-author__author-name').value = profileEditAuthor.textContent;
+  popupAuthorContainer.querySelector('.popup-author__author-profession').value = profileProfession.textContent;
 }
 
 function handleAuthorFormSubmit (evt){
@@ -66,14 +68,6 @@ function closeAuthorPopup(){
 }
 
 // Форма добавления изображения
-const popupAddImageContainer = document.querySelector('.popup-addimage');
-let clickAddImageButton = document.querySelector('.profile__button');
-clickAddImageButton.addEventListener('click', openAddImagePopup);
-let clickAddImageCloseButton = document.querySelector('.popup-addimage__close-button');
-clickAddImageCloseButton.addEventListener('click', closeAddImagePopup);
-let formAddImageElement = document.querySelector('.popup-addimage__container');
-formAddImageElement.addEventListener('submit', handleAddImageFormSubmit);
-
 function openAddImagePopup(){
   popupAddImageContainer.classList.add('popup-addimage_opened');
 }
@@ -82,7 +76,7 @@ function handleAddImageFormSubmit (evt){
   evt.preventDefault();
   const name = popupAddImageContainer.querySelector('.popup-addimage__image-name').value;
   const link = popupAddImageContainer.querySelector('.popup-addimage__image-link').value;
-  const nameList = CardAdd({name:name, link:link});
+  const nameList = addCard({name:name, link:link});
   photoGrid.prepend(nameList);
   popupAddImageContainer.querySelector('.popup-addimage__image-name').value = '';
   popupAddImageContainer.querySelector('.popup-addimage__image-link').value = '';
@@ -93,7 +87,7 @@ function closeAddImagePopup(){
   popupAddImageContainer.classList.remove('popup-addimage_opened');
 }
 
-function CardAdd(item){
+function addCard(item){
   const cards = photoTemplate.querySelector('.photo__card').cloneNode(true);
   const cardDescription = cards.querySelector('.photo__card-discprition');
   const cardPlace = cards.querySelector('.photo__card-place');
@@ -118,10 +112,7 @@ function deleteCard (evt){
   targetItem.remove();
 }
 
-
 // Вывод увеличенной карточки
-const popupImage = document.querySelector('.popup-image');
-
 function openLargeImage(){
   popupImage.classList.add('popup-image_opened');
   const image = popupImage.querySelector('.popup-image__image');
@@ -131,11 +122,18 @@ function openLargeImage(){
   imageDescription.textContent = this.parentNode.querySelector('.photo__card-discprition').textContent;
 }
 
-const closeImage = document.querySelector('.popup-image__close');
-closeImage.addEventListener('click', closeLargeImage);
-
 function closeLargeImage(){
   popupImage.classList.remove('popup-image_opened');
 }
 
+fillCards();
 
+clickEditButton.addEventListener('click', openAuthorPopup);
+clickAuthorCloseButton.addEventListener('click', closeAuthorPopup);
+formAuthorElement.addEventListener('submit', handleAuthorFormSubmit);
+
+clickAddImageButton.addEventListener('click', openAddImagePopup);
+clickAddImageCloseButton.addEventListener('click', closeAddImagePopup);
+formAddImageElement.addEventListener('submit', handleAddImageFormSubmit);
+
+closeImage.addEventListener('click', closeLargeImage);
