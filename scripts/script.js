@@ -28,20 +28,30 @@ const initialCards = [
 const photoGrid = document.querySelector('.photo__grid');
 const photoTemplate = document.querySelector('#photo-template').content;
 
-const popupAuthorContainer = document.querySelector('.popup-author');
 const clickEditButton = document.querySelector('.profile__edit-button');
-const clickAuthorCloseButton = document.querySelector('.popup-author__close-button');
-const formAuthorElement = document.querySelector('.popup-author__container');
 const profileEditAuthor = document.querySelector('.profile__edit-author');
 const profileProfession = document.querySelector('.profile__profession');
-
-const popupAddImageContainer = document.querySelector('.popup-addimage');
 const clickAddImageButton = document.querySelector('.profile__button');
-const clickAddImageCloseButton = document.querySelector('.popup-addimage__close-button');
-const formAddImageElement = document.querySelector('.popup-addimage__container');
+const clickImage = photoTemplate.querySelector('.photo__card-place');
 
-const popupImage = document.querySelector('.popup-image');
-const closeImage = document.querySelector('.popup-image__close');
+const popup = document.querySelector('.popup');
+
+const popupAuthorContainer = document.querySelector('#popup-author');
+const clickAuthorCloseButton = popupAuthorContainer.querySelector('.popup__close-button');
+const formAuthorElement = popupAuthorContainer.querySelector('.popup__container');
+const popupNameAuthor = popupAuthorContainer.querySelector('.popup__name');
+const popupLinkAuthor = popupAuthorContainer.querySelector('.popup__link');
+
+const popupAddImageContainer = document.querySelector('#popup-addimage');
+const clickAddImageCloseButton = popupAddImageContainer.querySelector('.popup__close-button');
+const formAddImageElement = popupAddImageContainer.querySelector('.popup__container');
+const popupNameAddImage = popupAddImageContainer.querySelector('.popup__name');
+const popupLinkAddImage = popupAddImageContainer.querySelector('.popup__link')
+
+const popupImage = document.querySelector('#popup-image');
+const closeImage = popupImage.querySelector('.popup__close-image');
+const image = popupImage.querySelector('.popup__image');
+const imageDescription = popupImage.querySelector('.popup__description');
 
 
 function fillCards(){
@@ -49,42 +59,39 @@ function fillCards(){
   photoGrid.append(...nameOnly);
 }
 
+
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+}
+
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+} 
+
 // Форма редактирования автора
 function openAuthorPopup(){
-  popupAuthorContainer.classList.add('popup-author_opened');
-  popupAuthorContainer.querySelector('.popup-author__author-name').value = profileEditAuthor.textContent;
-  popupAuthorContainer.querySelector('.popup-author__author-profession').value = profileProfession.textContent;
+  openPopup(popupAuthorContainer);
+  popupNameAuthor.value = profileEditAuthor.textContent;
+  popupLinkAuthor.value = profileProfession.textContent;
 }
 
 function handleAuthorFormSubmit (evt){
   evt.preventDefault();
-  profileEditAuthor.textContent = popupAuthorContainer.querySelector('.popup-author__author-name').value;
-  profileProfession.textContent = popupAuthorContainer.querySelector('.popup-author__author-profession').value;
-  closeAuthorPopup();
-}
-
-function closeAuthorPopup(){
-  popupAuthorContainer.classList.remove('popup-author_opened');
+  profileEditAuthor.textContent = popupNameAuthor.value;
+  profileProfession.textContent = popupLinkAuthor.value;
+  closePopup(popupAuthorContainer);
 }
 
 // Форма добавления изображения
-function openAddImagePopup(){
-  popupAddImageContainer.classList.add('popup-addimage_opened');
-}
-
 function handleAddImageFormSubmit (evt){
   evt.preventDefault();
-  const name = popupAddImageContainer.querySelector('.popup-addimage__image-name').value;
-  const link = popupAddImageContainer.querySelector('.popup-addimage__image-link').value;
+  const name = popupNameAddImage.value;
+  const link = popupLinkAddImage.value;
   const nameList = addCard({name:name, link:link});
   photoGrid.prepend(nameList);
-  popupAddImageContainer.querySelector('.popup-addimage__image-name').value = '';
-  popupAddImageContainer.querySelector('.popup-addimage__image-link').value = '';
-  closeAddImagePopup();
-}
-
-function closeAddImagePopup(){
-  popupAddImageContainer.classList.remove('popup-addimage_opened');
+  popupNameAddImage.value = '';
+  popupLinkAddImage.value = '';
+  closePopup(popupAddImageContainer);
 }
 
 function addCard(item){
@@ -98,7 +105,7 @@ function addCard(item){
   const deleteButton = cards.querySelector('.photo__delete-icon');
   deleteButton.addEventListener('click', deleteCard);
 
-  cards.querySelector('.photo__card-place').addEventListener('click', openLargeImage);
+  cardPlace.addEventListener('click', () => openLargeImage(item.link, item.name));
 
   cards.querySelector('.photo__card-like').addEventListener('click', function (evt) {
     evt.target.classList.toggle('photo__card-like_active');
@@ -107,33 +114,25 @@ function addCard(item){
 }
 
 function deleteCard (evt){
-  const targetEl = evt.target;
-  const targetItem = targetEl.closest('.photo__card');
-  targetItem.remove();
+  evt.target.closest('.photo__card').remove();
 }
 
 // Вывод увеличенной карточки
-function openLargeImage(){
-  popupImage.classList.add('popup-image_opened');
-  const image = popupImage.querySelector('.popup-image__image');
-  const imageDescription = popupImage.querySelector('.popup-image__description');
-  
-  image.src = this.src;
-  imageDescription.textContent = this.parentNode.querySelector('.photo__card-discprition').textContent;
-}
-
-function closeLargeImage(){
-  popupImage.classList.remove('popup-image_opened');
+function openLargeImage(link, name){
+  openPopup(popupImage);
+  image.src = link;
+  imageDescription.textContent = name;
 }
 
 fillCards();
 
 clickEditButton.addEventListener('click', openAuthorPopup);
-clickAuthorCloseButton.addEventListener('click', closeAuthorPopup);
+clickAuthorCloseButton.addEventListener('click', () => closePopup(popupAuthorContainer) );
 formAuthorElement.addEventListener('submit', handleAuthorFormSubmit);
 
-clickAddImageButton.addEventListener('click', openAddImagePopup);
-clickAddImageCloseButton.addEventListener('click', closeAddImagePopup);
+clickAddImageButton.addEventListener('click', () => openPopup(popupAddImageContainer));
+clickAddImageCloseButton.addEventListener('click', () => closePopup(popupAddImageContainer));
 formAddImageElement.addEventListener('submit', handleAddImageFormSubmit);
 
-closeImage.addEventListener('click', closeLargeImage);
+closeImage.addEventListener('click', () => closePopup(popupImage));
+

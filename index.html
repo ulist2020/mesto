@@ -47,31 +47,31 @@
                 </li>
             </template>
 
-            <div class="popup-author"> 
-                <form class="popup-author__container" method="POST" name="PopupAuthorForm">
-                    <button class="popup-author__close-button" type="reset" aria-label="Закрыть окно редактирования"></button>
-                    <h3 class="popup-author__header">Редактировать профиль</h3>
-                    <input class="popup-author__author-name" type="text" placeholder="Имя" name="author">
-                    <input class="popup-author__author-profession" type="text" placeholder="О себе" name="profession">
-                    <button class="popup-author__button" type="submit" aria-label="Сохранить">Сохранить</button>
+            <div class="popup" id="popup-author"> 
+                <form class="popup__container" method="POST" name="PopupAuthorForm">
+                    <button class="popup__close-button" type="reset" aria-label="Закрыть окно редактирования"></button>
+                    <h3 class="popup__header">Редактировать профиль</h3>
+                    <input class="popup__name" type="text" placeholder="Имя" name="author">
+                    <input class="popup__link" type="text" placeholder="О себе" name="profession">
+                    <button class="popup__button" type="submit" aria-label="Сохранить">Сохранить</button>
                 </form>
             </div>
 
-            <div class="popup-addimage"> 
-                <form class="popup-addimage__container" method="POST" name="PopupAddimageForm">
-                    <button class="popup-addimage__close-button" type="reset" aria-label="Закрыть окно"></button>
-                    <h3 class="popup-addimage__header">Новое место</h3>
-                    <input class="popup-addimage__image-name" type="text" placeholder="Название" name="image-name">
-                    <input class="popup-addimage__image-link" type="text" placeholder="Ссылка" name="image-link">
-                    <button class="popup-addimage__button" type="submit" aria-label="Сохранить">Создать</button>
+            <div class="popup" id="popup-addimage"> 
+                <form class="popup__container" method="POST" name="PopupAddimageForm">
+                    <button class="popup__close-button" type="reset" aria-label="Закрыть окно"></button>
+                    <h3 class="popup__header">Новое место</h3>
+                    <input class="popup__name" type="text" placeholder="Название" name="image-name">
+                    <input class="popup__link" type="text" placeholder="Ссылка" name="image-link">
+                    <button class="popup__button" type="submit" aria-label="Сохранить">Создать</button>
                 </form>
             </div>
 
-            <div class="popup-image">
-                <div class="popup-image__block">
-                    <button class="popup-image__close" type="reset" aria-label="Закрыть"></button>
-                    <img class="popup-image__image" src="#" alt="#">
-                    <p class="popup-image__description"></p>
+            <div class="popup" id="popup-image">
+                <div class="popup__block">
+                    <button class="popup__close-image" type="reset" aria-label="Закрыть"></button>
+                    <img class="popup__image" src="#" alt="#">
+                    <p class="popup__description"></p>
                 </div>
             </div>
             

@@ -1,9 +1,0 @@
-.popup-image_opened{
-    display: flex;
-    opacity: 0;
-    transition: 0.5s; /*Скорость перехода состояния элемента*/
-    animation: show 0.5s 1; /* Указываем название анимации, её время и количество повторов*/
-    animation-fill-mode: forwards; /* Чтобы элемент оставался в конечном состоянии анимации */
-    animation-delay: 0s; /* Задержка перед началом */    
-
-}
