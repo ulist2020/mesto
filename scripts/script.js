@@ -35,18 +35,19 @@ const clickAddImageButton = document.querySelector('.profile__button');
 const clickImage = photoTemplate.querySelector('.photo__card-place');
 
 const popup = document.querySelector('.popup');
+const popupAll = Array.from(document.querySelectorAll('.popup'));
 
 const popupAuthorContainer = document.querySelector('#popup-author');
 const clickAuthorCloseButton = popupAuthorContainer.querySelector('.popup__close-button');
 const formAuthorElement = popupAuthorContainer.querySelector('.popup__container');
-const popupNameAuthor = popupAuthorContainer.querySelector('.popup__name');
-const popupLinkAuthor = popupAuthorContainer.querySelector('.popup__link');
+const popupNameAuthor = popupAuthorContainer.querySelector('#popup__name');
+const popupLinkAuthor = popupAuthorContainer.querySelector('#popup__link');
 
 const popupAddImageContainer = document.querySelector('#popup-addimage');
 const clickAddImageCloseButton = popupAddImageContainer.querySelector('.popup__close-button');
 const formAddImageElement = popupAddImageContainer.querySelector('.popup__container');
-const popupNameAddImage = popupAddImageContainer.querySelector('.popup__name');
-const popupLinkAddImage = popupAddImageContainer.querySelector('.popup__link')
+const popupNameAddImage = popupAddImageContainer.querySelector('#popup__name');
+const popupLinkAddImage = popupAddImageContainer.querySelector('#popup__link')
 
 const popupImage = document.querySelector('#popup-image');
 const closeImage = popupImage.querySelector('.popup__close-image');
@@ -67,6 +68,21 @@ function openPopup(popup) {
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
 } 
+
+// Закртие попапа нажатием на оверлей и Esc
+popupAll.forEach((popup) => {
+  popup.addEventListener('click', evt => {
+    if(evt.target.classList.contains('popup')){
+      closePopup(popup);
+    }
+  })
+  document.addEventListener('keydown', evt => {
+    if (evt.key === 'Escape') {
+      closePopup(popup);
+    };
+}); 
+});
+
 
 // Форма редактирования автора
 function openAuthorPopup(){
@@ -135,4 +151,5 @@ clickAddImageCloseButton.addEventListener('click', () => closePopup(popupAddImag
 formAddImageElement.addEventListener('submit', handleAddImageFormSubmit);
 
 closeImage.addEventListener('click', () => closePopup(popupImage));
+
 

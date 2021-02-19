@@ -1,28 +1,28 @@
-.popup__button{
-    background: #000000;
+.popup__button_disabled{
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
     border-radius: 2px;
     height: 50px;
     width: 358px;
-    color: #FFFFFF;
+    color: rgba(0, 0, 0, 0.2);
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
     line-height: 22px;
     text-align: center;
-    margin-top: auto;
-    margin-bottom: 36px;
     padding: 0;
     cursor: pointer;
     transition: opacity linear 0.5s;
-
+    pointer-events: none;
 }
 
-.popup__button:hover{
+.popup__button_disabled:hover{
     opacity: 0.8;
 }
 
 @media screen and (max-width: 900px){
-    .popup__button{
+    .popup__button_disabled{
         height: 46px;
         width: 238px;
         font-size: 14px;
