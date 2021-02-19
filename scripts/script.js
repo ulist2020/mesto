@@ -63,6 +63,11 @@ function fillCards(){
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  const inputList = Array.from(popup.querySelectorAll('.popup__input'));
+    const submitButtonSelector = popup.querySelector('.popup__button');
+  if (submitButtonSelector) {
+    toggleButtonState(inputList, submitButtonSelector);
+  }
 }
 
 function closePopup(popup) {
@@ -83,12 +88,13 @@ popupAll.forEach((popup) => {
 }); 
 });
 
-
 // Форма редактирования автора
 function openAuthorPopup(){
-  openPopup(popupAuthorContainer);
+  // console.log(popupAuthorContainer);
   popupNameAuthor.value = profileEditAuthor.textContent;
   popupLinkAuthor.value = profileProfession.textContent;
+  openPopup(popupAuthorContainer);
+
 }
 
 function handleAuthorFormSubmit (evt){
