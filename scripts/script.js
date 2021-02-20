@@ -40,8 +40,8 @@ const popupAll = Array.from(document.querySelectorAll('.popup'));
 const popupAuthorContainer = document.querySelector('#popup-author');
 const clickAuthorCloseButton = popupAuthorContainer.querySelector('.popup__close-button');
 const formAuthorElement = popupAuthorContainer.querySelector('.popup__container');
-const popupNameAuthor = popupAuthorContainer.querySelector('#popup__name');
-const popupLinkAuthor = popupAuthorContainer.querySelector('#popup__link');
+const popupNameAuthor = popupAuthorContainer.querySelector('#popup__name-author');
+const popupLinkAuthor = popupAuthorContainer.querySelector('#popup__link-author');
 
 const popupAddImageContainer = document.querySelector('#popup-addimage');
 const clickAddImageCloseButton = popupAddImageContainer.querySelector('.popup__close-button');
