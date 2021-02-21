@@ -63,10 +63,12 @@ function fillCards(){
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  const inputList = Array.from(popup.querySelectorAll('.popup__input'));
-    const submitButtonSelector = popup.querySelector('.popup__button');
-  if (submitButtonSelector) {
-    toggleButtonState(inputList, submitButtonSelector);
+ const inputList = Array.from(popup.querySelectorAll('.popup__input'));
+  const submitButton = popup.querySelector('.popup__button');
+   const inactiveButtonClass = submitButton.classList.add('popup__button_disabled');
+   console.log(inactiveButtonClass);
+  if (submitButton) {
+    toggleButtonState(inputList, submitButton, inactiveButtonClass);
   }
 }
 
