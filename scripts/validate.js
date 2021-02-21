@@ -7,50 +7,52 @@ const hasInvalidInput = (inputList) => {
 
 // Функция выключения кнопки Submit при непрохождении валидации
 const toggleButtonState = (inputList, submitButton, inactiveButtonClass) => {
+    // Если поле не валидно, то 
     if (hasInvalidInput(inputList)) {
+        // делаем кнопку Submit неактивной
         submitButton.classList.add(inactiveButtonClass);
-        submitButton.disabled = false;
+        submitButton.disabled = true;
     } else {
         submitButton.classList.remove(inactiveButtonClass);
-        submitButton.disabled = true;
+        submitButton.disabled = false;
     }
   }; 
 
-const inputError = (formSelector, inputSelector, errorMessage, inputErrorClass, errorClass) => {
-    const error = formSelector.querySelector(`.${inputSelector.id}-error`);
+const inputError = (Form, inputSelector, errorMessage, inputErrorClass, errorClass) => {
+    const error = Form.querySelector(`.${inputSelector.id}-error`);
     inputSelector.classList.add(inputErrorClass);
     error.textContent = errorMessage;
     error.classList.add(errorClass);
   };
 
-const hideInputError = (formSelector, inputSelector, inputErrorClass, errorClass) => {
-    const error = formSelector.querySelector(`.${inputSelector.id}-error`);
+const hideInputError = (Form, inputSelector, inputErrorClass, errorClass) => {
+    const error = Form.querySelector(`.${inputSelector.id}-error`);
     inputSelector.classList.remove(inputErrorClass);
     error.textContent = " ";
     error.classList.remove(errorClass);
   };
 
 // Функция вывода сообщения об ошибке
-const isValid = (formSelector, inputSelector, inputErrorClass, errorClass) => {
+const isValid = (Form, inputSelector, inputErrorClass, errorClass) => {
     if (!inputSelector.validity.valid) {
-        inputError(formSelector, inputSelector, inputSelector.validationMessage, inputErrorClass, errorClass);
+        inputError(Form, inputSelector, inputSelector.validationMessage, inputErrorClass, errorClass);
     } else {
-        hideInputError(formSelector, inputSelector, inputErrorClass, errorClass);
+        hideInputError(Form, inputSelector, inputErrorClass, errorClass);
     }
 };
 
-const setEventListeners = (formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass) => {
+const setEventListeners = (Form, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass) => {
     // Выбираем все поля Input в форме
-    const inputList = Array.from(formSelector.querySelectorAll(inputSelector));
+    const inputList = Array.from(Form.querySelectorAll(inputSelector));
     // Находим кнопку Submit
-    const submitButton = formSelector.querySelector(submitButtonSelector);
+    const submitButton = Form.querySelector(submitButtonSelector);
     // Задаем начальную доступность кнопки Submit
     toggleButtonState(inputList, submitButton, inactiveButtonClass);
     // Каждому полю Input вешаем обработчик,который ...
     inputList.forEach((inputSelector) => {
         inputSelector.addEventListener('input', () => {
             // ... проверяет поле на валидность и выдает сообщение об ошибке, ...
-            isValid(formSelector, inputSelector, inputErrorClass, errorClass);
+            isValid(Form, inputSelector, inputErrorClass, errorClass);
             // ... и переключает состояние кнопки Submit
             toggleButtonState(inputList, submitButton, inactiveButtonClass);
         });
@@ -58,30 +60,33 @@ const setEventListeners = (formSelector, inputSelector, submitButtonSelector, in
 }; 
 
 // Функция включения валидации
-const enableValidation = ({formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass}) => {
+const enableValidation = ({Form, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass}) => {
     // Находим все всплывающие формы
-    const formList = Array.from(document.querySelectorAll(formSelector));
+    const formList = Array.from(document.querySelectorAll(Form));
     // Для каждой найденной всплывающей формы ...
-    formList.forEach((formSelector) => {
+    formList.forEach((Form) => {
         // ... отключаем стандартный обработчик, ...
-        formSelector.addEventListener('submit', (evt) => {
+        Form.addEventListener('submit', (evt) => {
             evt.preventDefault();
         });
         // ... вешаем обработчик на поля Input
-        setEventListeners(formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass);
+        setEventListeners(Form, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass);
     });
 };
 
 // При загрузке скрипта включаем валидацию
-
 const validationConfig = {
-    formSelector: '.popup__container',
+    Form: '.popup__container',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__button',
     inactiveButtonClass: 'popup__button_disabled',
     inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__error_visible'
 }; 
+
+function ValidatePopupOnOpen(inputList,submitButton) {
+    toggleButtonState(inputList, submitButton, validationConfig.inactiveButtonClass);
+}
 
 enableValidation(validationConfig); 
 

@@ -63,40 +63,41 @@ function fillCards(){
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
- const inputList = Array.from(popup.querySelectorAll('.popup__input'));
-  const submitButton = popup.querySelector('.popup__button');
-   const inactiveButtonClass = submitButton.classList.add('popup__button_disabled');
-   console.log(inactiveButtonClass);
-  if (submitButton) {
-    toggleButtonState(inputList, submitButton, inactiveButtonClass);
-  }
-}
-
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-} 
-
 // Закртие попапа нажатием на оверлей и Esc
-popupAll.forEach((popup) => {
   popup.addEventListener('click', evt => {
     if(evt.target.classList.contains('popup')){
       closePopup(popup);
     }
-  })
+  });
   document.addEventListener('keydown', evt => {
     if (evt.key === 'Escape') {
       closePopup(popup);
     };
-}); 
-});
+  }); 
+}
+
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+  popup.removeEventListener('click', evt => {
+    if(evt.target.classList.contains('popup')){
+      closePopup(popup);
+    }
+  });
+  document.removeEventListener('keydown', evt => {
+    if (evt.key === 'Escape') {
+      closePopup(popup);
+    };
+  }); 
+} 
 
 // Форма редактирования автора
 function openAuthorPopup(){
-  // console.log(popupAuthorContainer);
   popupNameAuthor.value = profileEditAuthor.textContent;
   popupLinkAuthor.value = profileProfession.textContent;
   openPopup(popupAuthorContainer);
-
+  const inputList = Array.from(popup.querySelectorAll('.popup__input'));
+  const submitButton = popup.querySelector('.popup__button');
+  ValidatePopupOnOpen(inputList,submitButton);
 }
 
 function handleAuthorFormSubmit (evt){
