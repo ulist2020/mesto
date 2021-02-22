@@ -63,18 +63,21 @@ function fillCards(){
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  popup.addEventListener('click', evt => {
-    if(evt.target.classList.contains('popup')){
-      closePopup(popup);
-    }
-  });
+  document.addEventListener('click', closeByOverlay);
   document.addEventListener('keydown', handleEsc); 
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('click', closeByOverlay);
   document.removeEventListener('keydown', handleEsc); 
 } 
+
+function closeByOverlay (evt) {
+  if(evt.target.classList.contains('popup')){
+    closePopup(document.querySelector('.popup_opened'));
+  }
+}
 
 function handleEsc (evt) {
   if (evt.key === 'Escape') {
