@@ -63,41 +63,41 @@ function fillCards(){
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-// Закртие попапа нажатием на оверлей и Esc
   popup.addEventListener('click', evt => {
     if(evt.target.classList.contains('popup')){
       closePopup(popup);
     }
   });
-  document.addEventListener('keydown', evt => {
-    if (evt.key === 'Escape') {
-      closePopup(popup);
-    };
-  }); 
+  document.addEventListener('keydown', handleEsc); 
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  popup.removeEventListener('click', evt => {
-    if(evt.target.classList.contains('popup')){
-      closePopup(popup);
-    }
-  });
-  document.removeEventListener('keydown', evt => {
-    if (evt.key === 'Escape') {
-      closePopup(popup);
-    };
-  }); 
+  document.removeEventListener('keydown', handleEsc); 
 } 
+
+function handleEsc (evt) {
+  if (evt.key === 'Escape') {
+    closePopup(document.querySelector('.popup_opened'));
+  };
+}
 
 // Форма редактирования автора
 function openAuthorPopup(){
   popupNameAuthor.value = profileEditAuthor.textContent;
   popupLinkAuthor.value = profileProfession.textContent;
   openPopup(popupAuthorContainer);
-  const inputList = Array.from(popup.querySelectorAll('.popup__input'));
-  const submitButton = popup.querySelector('.popup__button');
-  ValidatePopupOnOpen(inputList,submitButton);
+  const inputList = Array.from(popupAuthorContainer.querySelectorAll('.popup__input'));
+  const submitButton = popupAuthorContainer.querySelector('.popup__button');
+  validatePopupOnOpen(inputList,submitButton);
+}
+
+// Форма добавления картинки
+function openAddImagePopup(){
+  openPopup(popupAddImageContainer);
+  const inputList = Array.from(popupAddImageContainer.querySelectorAll('.popup__input'));
+  const submitButton = popupAddImageContainer.querySelector('.popup__button');
+  validatePopupOnOpen(inputList,submitButton);
 }
 
 function handleAuthorFormSubmit (evt){
@@ -155,7 +155,7 @@ clickEditButton.addEventListener('click', openAuthorPopup);
 clickAuthorCloseButton.addEventListener('click', () => closePopup(popupAuthorContainer) );
 formAuthorElement.addEventListener('submit', handleAuthorFormSubmit);
 
-clickAddImageButton.addEventListener('click', () => openPopup(popupAddImageContainer));
+clickAddImageButton.addEventListener('click', openAddImagePopup);
 clickAddImageCloseButton.addEventListener('click', () => closePopup(popupAddImageContainer));
 formAddImageElement.addEventListener('submit', handleAddImageFormSubmit);
 
