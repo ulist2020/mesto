@@ -1,51 +1,10 @@
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-  ];
+import { openPopup, closePopup, initialCards, photoGrid, popupImage, image, closeImage, imageDescription } from './index.js';
 
-const photoGrid = document.querySelector('.photo__grid');
-
-const popupImage = document.querySelector('#popup-image');
-const image = popupImage.querySelector('.popup__image');
-const closeImage = popupImage.querySelector('.popup__close-image');
-const imageDescription = popupImage.querySelector('.popup__description');
-
-const popupAddImageContainer = document.querySelector('#popup-addimage');
-const formAddImageElement = popupAddImageContainer.querySelector('.popup__container');
-const popupNameAddImage = popupAddImageContainer.querySelector('#popup__name');
-const popupLinkAddImage = popupAddImageContainer.querySelector('#popup__link')
-
-
-import { openPopup, closePopup } from './index.js';
-
-class Card {
+export class Card {
     constructor(name, link) {
         this._name = name;
         this._link = link;
     }
-
     //Возвращаем разметку карточки
     _getTemplate() {
         const cardElement = document
@@ -56,36 +15,18 @@ class Card {
 
         return cardElement;
     }
-
     //Добавляем данные в разметку
     generateCard() {
         // Запишем разметку в приватное поле _element. 
         // Так у других элементов появится доступ к ней.
         this._element = this._getTemplate();
-
         this._setEventListeners();
-
         // Добавим данные
         this._element.querySelector('.photo__card-place').src = this._link;
         this._element.querySelector('.photo__card-discprition').textContent = this._name;
-      
         // Вернём элемент наружу
         return this._element;
       } 
-
-      //Добавление карточки из попапа
-      handleAddImageFormSubmit (evt){
-        evt.preventDefault();
-        const name = popupNameAddImage.value;
-        const link = popupLinkAddImage.value;
-        const nameList = this.generateCard({name:name, link:link});
-        photoGrid.prepend(nameList);
-        popupNameAddImage.value = '';
-        popupLinkAddImage.value = '';
-        closePopup(popupAddImageContainer);
-
-        
-      }
 
       _openLargeImage() {
         image.src = this._link;
@@ -129,22 +70,17 @@ class Card {
             this._clickLike(evt);
         });
 
-        //Добавление карточки из попапа
-        formAddImageElement.addEventListener('submit', (evt) => {
-            this.handleAddImageFormSubmit(evt)
-        });
     }
 }
-
-initialCards.forEach((item) => {
-    // Создадим экземпляр карточки
-    const card = new Card(item.name, item.link);
-    // Создаём карточку и возвращаем наружу
-    const cardElement = card.generateCard();
     
+        //перебираем карточки и встовляем в разметку
+        initialCards.forEach((item) => {
+          // Создадим экземпляр карточки
+          const card = new Card(item.name, item.link);
+          // Создаём карточку и возвращаем наружу
+          const cardElement = card.generateCard();
+          // Добавляем в DOM
+          photoGrid.append(cardElement);
+        }); 
   
-    // Добавляем в DOM
-    photoGrid.append(cardElement);
-  }); 
-
-  
+         
