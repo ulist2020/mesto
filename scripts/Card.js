@@ -1,4 +1,4 @@
-import { openPopup, closePopup, initialCards, photoGrid, popupImage, image, closeImage, imageDescription } from './index.js';
+import { openPopup, closePopup, popupImage, image, closeImage, imageDescription } from './index.js';
 
 export class Card {
     constructor(name, link) {
@@ -12,7 +12,6 @@ export class Card {
         .content
         .querySelector('.photo__card')
         .cloneNode(true);
-
         return cardElement;
     }
     //Добавляем данные в разметку
@@ -73,14 +72,6 @@ export class Card {
     }
 }
     
-        //перебираем карточки и встовляем в разметку
-        initialCards.forEach((item) => {
-          // Создадим экземпляр карточки
-          const card = new Card(item.name, item.link);
-          // Создаём карточку и возвращаем наружу
-          const cardElement = card.generateCard();
-          // Добавляем в DOM
-          photoGrid.append(cardElement);
-        }); 
+        
   
          

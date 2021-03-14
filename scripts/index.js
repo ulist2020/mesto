@@ -1,6 +1,7 @@
 import {Card} from './Card.js';
+import {FormValidator} from './FormValidator.js';
 
-export const initialCards = [
+ const initialCards = [
     {
       name: 'Архыз',
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -52,6 +53,17 @@ export const image = popupImage.querySelector('.popup__image');
 export const imageDescription = popupImage.querySelector('.popup__description');
 
 export const photoGrid = document.querySelector('.photo__grid');
+
+// При загрузке скрипта включаем валидацию
+const validationConfig = {
+  form: '.popup__container',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}; 
+
   
 export function openPopup(popup) {
     popup.classList.add('popup_opened');
@@ -82,9 +94,11 @@ export function closePopup(popup) {
     popupNameAuthor.value = profileEditAuthor.textContent;
     popupLinkAuthor.value = profileProfession.textContent;
     openPopup(popupAuthorContainer);
-    const inputList = Array.from(popupAuthorContainer.querySelectorAll('.popup__input'));
-    const submitButton = popupAuthorContainer.querySelector('.popup__button');
-    validatePopupOnOpen(inputList,submitButton);
+    //const inputList = Array.from(popupAuthorContainer.querySelectorAll('.popup__input'));
+    //const submitButton = popupAuthorContainer.querySelector('.popup__button');
+    //validatePopupOnOpen(inputList,submitButton);
+    const valAuthorForm = new FormValidator(validationConfig, formAuthorElement);
+    valAuthorForm.enableValidation();
   }
 
     //Изменение данных в попапе с автором
@@ -98,9 +112,12 @@ export function closePopup(popup) {
   // Открытие попапа для добавления картинки
     function openAddImagePopup(){
         openPopup(popupAddImageContainer);
-        const inputList = Array.from(popupAddImageContainer.querySelectorAll('.popup__input'));
-        const submitButton = popupAddImageContainer.querySelector('.popup__button');
-        validatePopupOnOpen(inputList,submitButton);
+        //const inputList = Array.from(popupAddImageContainer.querySelectorAll('.popup__input'));
+        //const submitButton = popupAddImageContainer.querySelector('.popup__button');
+        //validatePopupOnOpen(inputList,submitButton);
+        const valAddImage = new FormValidator(validationConfig, formAddImageElement);
+        valAddImage.enableValidation();
+    
     }
 
   // Форма добавления изображения из попапа
@@ -115,6 +132,16 @@ export function closePopup(popup) {
         popupLinkAddImage.value = '';
         closePopup(popupAddImageContainer);
     }
+
+    //перебираем карточки и встовляем в разметку
+    initialCards.forEach((item) => {
+        // Создадим экземпляр карточки
+        const card = new Card(item.name, item.link);
+        // Создаём карточку и возвращаем наружу
+        const cardElement = card.generateCard();
+        // Добавляем в DOM
+        photoGrid.append(cardElement);
+      }); 
   
     clickEditButton.addEventListener('click', openAuthorPopup);
     clickAuthorCloseButton.addEventListener('click', () => closePopup(popupAuthorContainer) );
