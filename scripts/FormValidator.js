@@ -1,20 +1,9 @@
-// При загрузке скрипта включаем валидацию
-const validationConfig = {
-    form: '.popup__container',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
-}; 
+import { validationConfig } from './index.js';
 
 export class FormValidator {
     constructor(validationConfig, form) {
         this._validationConfig = validationConfig;
-        this._$form = form;
-        console.log(this._validationConfig);
-        console.log(this._$form);
-        
+        this._form = form;
     }
 
     _hasInvalidInput(inputList){
@@ -22,9 +11,9 @@ export class FormValidator {
             return !item.validity.valid;
         };
         return inputList.some(checkvalid);
-
     }
 
+    // Функция выключения кнопки Submit при непрохождении валидации 
     _toggleButtonState(inputList, submitButton){
         // Если поле не валидно, то 
         if (this._hasInvalidInput(inputList)) {
@@ -38,36 +27,33 @@ export class FormValidator {
     }
 
     _inputError(item, errorMessage){
-        const error = this._$form.querySelector(`.${item.id}-error`);
+        const error = this._form.querySelector(`.${item.id}-error`);
         item.classList.add(this._validationConfig.inputErrorClass);
         error.textContent = errorMessage;
         error.classList.add(this._validationConfig.errorClass);
-    
     }
 
     _hideInputError(item){
-        const error = this._$form.querySelector(`.${item.id}-error`);
+        const error = this._form.querySelector(`.${item.id}-error`);
         item.classList.remove(this._validationConfig.inputErrorClass);
         error.textContent = " ";
         error.classList.remove(this._validationConfig.errorClass);
-    
-
     }
 
+    // Функция вывода сообщения об ошибке
     _isValid(item){
         if (!item.validity.valid) {
             this._inputError(item, item.validationMessage);
         } else {
             this._hideInputError(item);
         }
-
     }
 
     _setEventListeners(){
         // Выбираем все поля Input в форме
-        const inputList = Array.from(this._$form.querySelectorAll(this._validationConfig.inputSelector));
+        const inputList = Array.from(this._form.querySelectorAll(this._validationConfig.inputSelector));
         // Находим кнопку Submit
-        const submitButton = this._$form.querySelector(this._validationConfig.submitButtonSelector);
+        const submitButton = this._form.querySelector(this._validationConfig.submitButtonSelector);
         // Задаем начальную доступность кнопки Submit
         this._toggleButtonState(inputList, submitButton);
         // Каждому полю Input вешаем обработчик,который ...
@@ -77,21 +63,17 @@ export class FormValidator {
             this._isValid(item);
             // ... и переключает состояние кнопки Submit
             this._toggleButtonState(inputList, submitButton);
+            });
         });
-    });
-
     }
-
+    // Функция включения валидации
     enableValidation(){
             // ... отключаем стандартный обработчик, ...
-            this._$form.addEventListener('submit', (evt) => {
+            this._form.addEventListener('submit', (evt) => {
                 evt.preventDefault();
             });
             // ... вешаем обработчик на поля Input
             this._setEventListeners();
-        
-
-
     }
 
     _validatePopupOnOpen(){

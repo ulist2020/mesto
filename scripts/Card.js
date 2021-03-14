@@ -1,30 +1,19 @@
 import { openPopup, closePopup, popupImage, image, closeImage, imageDescription } from './index.js';
 
 export class Card {
-    constructor(name, link) {
+    constructor(name, link, cardElement) {
         this._name = name;
         this._link = link;
+        this._cardElement = cardElement;
     }
-    //Возвращаем разметку карточки
-    _getTemplate() {
-        const cardElement = document
-        .querySelector('#photo-template')
-        .content
-        .querySelector('.photo__card')
-        .cloneNode(true);
-        return cardElement;
-    }
+
     //Добавляем данные в разметку
     generateCard() {
-        // Запишем разметку в приватное поле _element. 
-        // Так у других элементов появится доступ к ней.
-        this._element = this._getTemplate();
+        this._newCard = this._cardElement.cloneNode(true);
+        this._newCard.querySelector('.photo__card-place').src = this._link;
+        this._newCard.querySelector('.photo__card-discprition').textContent = this._name;
         this._setEventListeners();
-        // Добавим данные
-        this._element.querySelector('.photo__card-place').src = this._link;
-        this._element.querySelector('.photo__card-discprition').textContent = this._name;
-        // Вернём элемент наружу
-        return this._element;
+        return this._newCard;
       } 
 
       _openLargeImage() {
@@ -47,7 +36,7 @@ export class Card {
      
       _setEventListeners() {
         //Открытие большой карточки
-        const cardPlace = this._element.querySelector('.photo__card-place');
+        const cardPlace = this._newCard.querySelector('.photo__card-place');
         cardPlace.addEventListener('click', () => {
           this._openLargeImage();
         });
@@ -58,13 +47,13 @@ export class Card {
         });
         
         //Удаление карточки
-        const deleteButton = this._element.querySelector('.photo__delete-icon');
+        const deleteButton = this._newCard.querySelector('.photo__delete-icon');
         deleteButton.addEventListener('click', (evt) => {
             this._deleteCard(evt);
           });
 
         //Лайк
-        const like = this._element.querySelector('.photo__card-like');
+        const like = this._newCard.querySelector('.photo__card-like');
         like.addEventListener('click', (evt) => {
             this._clickLike(evt);
         });
