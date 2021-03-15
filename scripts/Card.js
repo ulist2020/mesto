@@ -12,6 +12,7 @@ export class Card {
         this._newCard = this._cardElement.cloneNode(true);
         this._newCard.querySelector('.photo__card-place').src = this._link;
         this._newCard.querySelector('.photo__card-discprition').textContent = this._name;
+        this._newCard.querySelector('.photo__card-place').alt = this._name;
         this._setEventListeners();
         return this._newCard;
       } 
@@ -27,7 +28,8 @@ export class Card {
       }
 
       _deleteCard (evt){
-        evt.target.closest('.photo__card').remove();
+       this._newCard.remove();
+       this._newCard = null;
       }
 
       _clickLike (evt) {

@@ -1,5 +1,3 @@
-import { validationConfig } from './index.js';
-
 export class FormValidator {
     constructor(validationConfig, form) {
         this._validationConfig = validationConfig;
@@ -74,10 +72,6 @@ export class FormValidator {
             });
             // ... вешаем обработчик на поля Input
             this._setEventListeners();
-    }
-
-    _validatePopupOnOpen(){
-         toggleButtonState(inputList, submitButton, validationConfig.inactiveButtonClass);
     }
 
 }
