@@ -6,7 +6,7 @@ export class FormValidator {
 
     _hasInvalidInput(inputList){
         const checkvalid = (item) => {
-            return !item.validity.valid;
+            return !item.validity.valid
         };
         return inputList.some(checkvalid);
     }
@@ -57,10 +57,10 @@ export class FormValidator {
         // Каждому полю Input вешаем обработчик,который ...
         inputList.forEach((item) => {
             item.addEventListener('input', () => {
-            // ... проверяет поле на валидность и выдает сообщение об ошибке, ...
-            this._isValid(item);
-            // ... и переключает состояние кнопки Submit
-            this._toggleButtonState(inputList, submitButton);
+                // ... проверяет поле на валидность и выдает сообщение об ошибке, ...
+                this._isValid(item);
+                // ... и переключает состояние кнопки Submit
+                this._toggleButtonState(inputList, submitButton);
             });
         });
     }

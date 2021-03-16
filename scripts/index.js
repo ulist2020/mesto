@@ -82,6 +82,7 @@ export function closePopup(popup) {
   // Открытие попапа для добавления картинки
   function openAddImagePopup(){
     openPopup(popupAddImageContainer);
+    popupAddImageContainer.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass);
   }
 
   // Форма добавления изображения из попапа
@@ -107,6 +108,7 @@ export function closePopup(popup) {
 
     valAuthorForm.enableValidation();
     valAddImage.enableValidation();
+    
   
     clickEditButton.addEventListener('click', openAuthorPopup);
     clickAuthorCloseButton.addEventListener('click', () => closePopup(popupAuthorContainer) );
