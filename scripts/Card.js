@@ -1,4 +1,5 @@
-import { openPopup, closePopup, popupImage, image, closeImage, imageDescription } from './index.js';
+import {popupImage, image, closeImage, imageDescription } from './index.js';
+import Popup from './Popup.js';
 
 export class Card {
     constructor(name, link, cardElement) {
@@ -20,11 +21,15 @@ export class Card {
       _openLargeImage() {
         image.src = this._link;
         imageDescription.textContent = this._name;
-        openPopup(popupImage);
+        const popup = new Popup(popupImage);
+        popup.open();
+       // openPopup(popupImage);
       }
     
       _closeLargeImage() {
-        closePopup(popupImage);
+        const popup = new Popup(popupImage);
+        popup.close();
+        //closePopup(popupImage);
       }
 
       _deleteCard (evt){
