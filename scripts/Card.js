@@ -4,7 +4,7 @@ import PopupWithImage from './PopupWithImage.js';
 
 
 export class Card {
-    constructor(name, link, cardElement) {
+    constructor(name, link, cardElement,) {
         this._name = name;
         this._link = link;
         this._cardElement = cardElement;

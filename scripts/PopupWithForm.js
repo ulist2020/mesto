@@ -3,7 +3,6 @@ import Popup from './Popup.js';
 export default class PopupWithForm extends Popup {
     constructor(containerSelector,{ handleFormSubmit}) {
         super(containerSelector);
-        this._container = containerSelector;
         this._handleFormSubmit = handleFormSubmit;
         }
 
