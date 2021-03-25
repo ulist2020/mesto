@@ -3,6 +3,7 @@ import {FormValidator} from './FormValidator.js';
 import { initialCards } from './constants.js';
 import Section from './Section.js';
 import Popup from './Popup.js';
+import PopupWithForm from './PopupWithForm.js';
 
 const cardEl = document.querySelector('#photo-template').content.querySelector('.photo__card');
 const photoGrid = document.querySelector('.photo__grid');
@@ -40,8 +41,32 @@ const cardsList = new Section({
     const card = new Card(item.name, item.link, cardEl);
     const newCard = card.generateCard();
     cardsList.addItem(newCard);
-      },
-    },photoGrid);
+    },
+},
+    photoGrid);
+
+//Изменение данных в попапе с автором
+const formAuthor = new PopupWithForm(formAuthorElement,
+    {handleFormSubmit: () => {
+      profileEditAuthor.textContent = popupNameAuthor.value;
+      profileProfession.textContent = popupLinkAuthor.value;
+      const popup = new Popup(popupAuthorContainer);
+      popup.close();
+      }
+    });
+    
+//Добавление карточки в попапе
+const formAddImage = new PopupWithForm(formAddImageElement,
+    {handleFormSubmit: () => {
+      const name = popupNameAddImage.value;
+      const link = popupLinkAddImage.value;
+      const card = new Card(name, link, cardEl);
+      const cardElement = card.generateCard();
+      photoGrid.prepend(cardElement);
+      const popup = new Popup(popupAddImageContainer);
+      popup.close();
+      }
+    });
 
 // При загрузке скрипта включаем валидацию
 const validationConfig = {
@@ -64,15 +89,6 @@ const valAddImage = new FormValidator(validationConfig, formAddImageElement);
     popup.open();
   }
 
-  //Изменение данных в попапе с автором
-  function handleAuthorFormSubmit (evt){
-    evt.preventDefault();
-    profileEditAuthor.textContent = popupNameAuthor.value;
-    profileProfession.textContent = popupLinkAuthor.value;
-    const popup = new Popup(popupAuthorContainer);
-    popup.close();
-  }
-
   // Открытие попапа для добавления картинки
   function openAddImagePopup(){
     const popup = new Popup(popupAddImageContainer);
@@ -80,38 +96,28 @@ const valAddImage = new FormValidator(validationConfig, formAddImageElement);
     popupAddImageContainer.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass);
   }
 
-  // Форма добавления изображения из попапа
-  function handleAddImageFormSubmit (evt){
-    evt.preventDefault();
-    const name = popupNameAddImage.value;
-    const link = popupLinkAddImage.value;
-    const card = new Card(name, link, cardEl);
-    const cardElement = card.generateCard();
-    photoGrid.prepend(cardElement);
-    formAddImageElement.reset();
-    const popup = new Popup(popupAddImageContainer);
-    popup.close();
-  }
     //Добавление карочек при загрузке страницы
     cardsList.renderItems();
+
+    //Изменение данных в попапах
+    formAuthor.setEventListeners();
+    formAddImage.setEventListeners();
 
     //Слушатель клика иконке закрытия попапа
     popupAuthor.setEventListeners();    
     popupAddImage.setEventListeners();
-    
+
     //Валидация форм
     valAuthorForm.enableValidation();
     valAddImage.enableValidation();
   
     clickEditButton.addEventListener('click', openAuthorPopup);
-    formAuthorElement.addEventListener('submit', handleAuthorFormSubmit);
-
     clickAddImageButton.addEventListener('click', openAddImagePopup);
 
-    formAddImageElement.addEventListener('submit', handleAddImageFormSubmit);
     
     
     
 
-   
+
+
     
