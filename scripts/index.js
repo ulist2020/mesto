@@ -98,7 +98,7 @@ const valAddImage = new FormValidator(validationConfig, formAddImageElement);
     //Слушатель клика иконке закрытия попапа
     popupAuthor.setEventListeners();    
     popupAddImage.setEventListeners();
-
+    
     //Валидация форм
     valAuthorForm.enableValidation();
     valAddImage.enableValidation();
