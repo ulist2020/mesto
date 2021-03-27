@@ -1,5 +1,5 @@
 import Popup from './Popup.js';
-import { image, imageDescription } from './index.js';
+import { image, imageDescription } from '../scripts/index.js';
 
 export default class PopupWithImage extends Popup {
 	    constructor(name, link, containerSelector) {

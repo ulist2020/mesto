@@ -1,10 +1,13 @@
-import {Card} from './Card.js';
-import {FormValidator} from './FormValidator.js';
+import '../pages/index.css';
+//import '../components';
+import {Card} from '../components/Card.js';
+import {FormValidator} from '../components/FormValidator.js';
 import { initialCards } from './constants.js';
-import Section from './Section.js';
-import Popup from './Popup.js';
-import PopupWithForm from './PopupWithForm.js';
-import  UserInfo  from './UserInfo.js';
+import Section from '../components/Section.js';
+import Popup from '../components/Popup.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import  UserInfo  from '../components/UserInfo.js';
 
 const cardEl = document.querySelector('#photo-template').content.querySelector('.photo__card');
 const photoGrid = document.querySelector('.photo__grid');
@@ -39,7 +42,8 @@ const popupAddImage = new Popup(popupAddImageContainer);
 const cardsList = new Section({
     items: initialCards,
     renderer: (item) => {
-    const card = new Card(item.name, item.link, cardEl,);
+    const openLargeImage = new PopupWithImage(item.name, item.link, popupImage);
+    const card = new Card(item.name, item.link, cardEl, () => openLargeImage.open());
     const newCard = card.generateCard();
     cardsList.addItem(newCard);
     },
@@ -61,7 +65,8 @@ const formAddImage = new PopupWithForm(formAddImageElement,
     {handleFormSubmit: () => {
       const name = popupNameAddImage.value;
       const link = popupLinkAddImage.value;
-      const card = new Card(name, link, cardEl);
+      const openLargeImage = new PopupWithImage(name, link, popupImage);
+      const card = new Card(name, link, cardEl, () => openLargeImage.open());
       const cardElement = card.generateCard();
       photoGrid.prepend(cardElement);
       const popup = new Popup(popupAddImageContainer);

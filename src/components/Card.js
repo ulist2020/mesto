@@ -1,13 +1,13 @@
-import {popupImage, closeImage, } from './index.js';
+import {popupImage, closeImage, } from '../scripts/index.js';
 import Popup from './Popup.js';
-import PopupWithImage from './PopupWithImage.js';
-
 
 export class Card {
-    constructor(name, link, cardElement,) {
+    constructor(name, link, cardElement, handleCardClick) {
         this._name = name;
         this._link = link;
         this._cardElement = cardElement;
+        this._handleCardClick = handleCardClick;
+        
     }
 
     //Добавляем данные в разметку
@@ -21,8 +21,7 @@ export class Card {
       } 
 
       _openLargeImage() {
-        const openLargeImage = new PopupWithImage(this._name, this._link, popupImage)
-        openLargeImage.open();
+        this._handleCardClick();
       }
     
       _closeLargeImage() {
@@ -30,7 +29,7 @@ export class Card {
         popup.close();
       }
 
-      _deleteCard (evt){
+      _deleteCard (){
        this._newCard.remove();
        this._newCard = null;
       }
@@ -42,9 +41,9 @@ export class Card {
       _setEventListeners() {
         //Открытие большой карточки
         const cardPlace = this._newCard.querySelector('.photo__card-place');
-        cardPlace.addEventListener('click', () => {
-          this._openLargeImage();
-        });
+          cardPlace.addEventListener('click', () => {
+            this._openLargeImage();
+          });
       
 
         //Закрытие большой карточки

@@ -1,4 +1,4 @@
-import {popup, clickAuthorCloseButton, clickAddImageCloseButton } from './index.js';
+import {popup, clickAuthorCloseButton, clickAddImageCloseButton } from '../scripts/index.js';
 
 export default class Popup {
     constructor(containerSelector) {
