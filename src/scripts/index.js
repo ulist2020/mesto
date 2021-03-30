@@ -1,7 +1,7 @@
 import '../pages/index.css';
 import {Card} from '../components/Card.js';
 import {FormValidator} from '../components/FormValidator.js';
-import { initialCards } from './constants.js';
+import { initialCards, popupImage, popupAuthorContainer } from './constants.js';
 import Section from '../components/Section.js';
 import Popup from '../components/Popup.js';
 import PopupWithForm from '../components/PopupWithForm.js';
@@ -10,24 +10,17 @@ import  UserInfo  from '../components/UserInfo.js';
 
 const cardEl = document.querySelector('#photo-template').content.querySelector('.photo__card');
 const photoGrid = document.querySelector('.photo__grid');
+const profileEditAuthor = document.querySelector('.profile__edit-author');
+const profileProfession = document.querySelector('.profile__profession');
 const clickEditButton = document.querySelector('.profile__edit-button');
 const clickAddImageButton = document.querySelector('.profile__button');
 
 const popupAddImageContainer = document.querySelector('#popup-addimage');
 const formAddImageElement = popupAddImageContainer.querySelector('.popup__container');
 const popupNameAddImage = popupAddImageContainer.querySelector('#popup__name');
-const popupLinkAddImage = popupAddImageContainer.querySelector('#popup__link')
+const popupLinkAddImage = popupAddImageContainer.querySelector('#popup__link');
 
-const popupAuthorContainer = document.querySelector('#popup-author');
 const formAuthorElement = popupAuthorContainer.querySelector('.popup__container');
-const popupNameAuthor = popupAuthorContainer.querySelector('#popup__name-author');
-const popupLinkAuthor = popupAuthorContainer.querySelector('#popup__link-author');
-
-export const popupImage = document.querySelector('#popup-image');
-export const closeImage = popupImage.querySelector('.popup__close-image');
-export const image = popupImage.querySelector('.popup__image');
-
-export const closePopupByKeyboard = 'Escape';
 
 const popupAuthor = new Popup(popupAuthorContainer); 
 const popupAddImage = new Popup(popupAddImageContainer);
@@ -47,7 +40,7 @@ const cardsList = new Section({
 //Изменение данных в попапе с автором
 const formAuthor = new PopupWithForm(formAuthorElement,
     {handleFormSubmit: () => {
-      const usernew = new UserInfo (popupNameAuthor, popupLinkAuthor);
+      const usernew = new UserInfo (profileEditAuthor, profileProfession);
       usernew.setUserInfo();
       const popup = new Popup(popupAuthorContainer);
       popup.close();
@@ -98,7 +91,7 @@ const valAddImage = new FormValidator(validationConfig, formAddImageElement);
 
   // Открытие попапа для изменения автора
     clickEditButton.addEventListener('click', () => {
-      const user = new UserInfo (popupNameAuthor, popupLinkAuthor);
+      const user = new UserInfo (profileEditAuthor, profileProfession);
       user.getUserInfo();
       const popup = new Popup(popupAuthorContainer);
       popup.open()

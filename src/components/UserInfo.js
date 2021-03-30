@@ -1,3 +1,4 @@
+import { popupNameAuthor, popupLinkAuthor } from '../scripts/constants.js';
 
 export default class UserInfo {
     constructor(author, profession) {
@@ -6,12 +7,12 @@ export default class UserInfo {
     }
 
     getUserInfo(){
-        this._author.value = document.querySelector('.profile__edit-author').textContent;
-        this._profession.value = document.querySelector('.profile__profession').textContent;
+        popupNameAuthor.value = this._author.textContent;
+        popupLinkAuthor.value = this._profession.textContent;
     }
 
     setUserInfo(){
-        document.querySelector('.profile__edit-author').textContent = this._author.value;
-        document.querySelector('.profile__profession').textContent = this._profession.value;
+        this._author.textContent = popupNameAuthor.value;
+        this._profession.textContent = popupLinkAuthor.value;
     }
 }

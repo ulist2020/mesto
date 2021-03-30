@@ -1,4 +1,4 @@
-import {closePopupByKeyboard } from '../scripts/index.js';
+import {closePopupHotKey } from '../scripts/constants.js';
 
 export default class Popup {
     constructor(containerSelector) {
@@ -20,7 +20,7 @@ export default class Popup {
     }
 
     _handleEscClose(evt){
-        if (evt.key === closePopupByKeyboard) {
+        if (evt.key === closePopupHotKey) {
             this.close();
           };
     }

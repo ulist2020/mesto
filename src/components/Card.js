@@ -1,16 +1,16 @@
-import {popupImage, closeImage } from '../scripts/index.js';
+import {popupImage, closeImage } from '../scripts/constants.js';
 
 export class Card {
-    constructor(name, link, cardElement, handleCardClick) {
+    constructor(name, link, cardSelector, handleCardClick) {
         this._name = name;
         this._link = link;
-        this._cardElement = cardElement;
+        this._cardSelector = cardSelector;
         this._handleCardClick = handleCardClick;
     }
 
     //Добавляем данные в разметку
     generateCard() {
-        this._newCard = this._cardElement.cloneNode(true);
+        this._newCard = this._cardSelector.cloneNode(true);
         this._newCard.querySelector('.photo__card-place').src = this._link;
         this._newCard.querySelector('.photo__card-discprition').textContent = this._name;
         this._newCard.querySelector('.photo__card-place').alt = this._name;
