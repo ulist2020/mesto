@@ -7,8 +7,11 @@ export default class UserInfo {
     }
 
     getUserInfo(){
-        popupNameAuthor.value = this._author.textContent;
-        popupLinkAuthor.value = this._profession.textContent;
+        const result = {
+            name: this._author.textContent,
+            profession: this._profession.textContent
+        }; 
+        return result;
     }
 
     setUserInfo(){

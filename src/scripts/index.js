@@ -1,7 +1,7 @@
 import '../pages/index.css';
 import {Card} from '../components/Card.js';
 import {FormValidator} from '../components/FormValidator.js';
-import { initialCards, popupImage, popupAuthorContainer } from './constants.js';
+import { initialCards, popupImage, popupAuthorContainer, popupNameAuthor, popupLinkAuthor} from './constants.js';
 import Section from '../components/Section.js';
 import Popup from '../components/Popup.js';
 import PopupWithForm from '../components/PopupWithForm.js';
@@ -92,9 +92,12 @@ const valAddImage = new FormValidator(validationConfig, formAddImageElement);
   // Открытие попапа для изменения автора
     clickEditButton.addEventListener('click', () => {
       const user = new UserInfo (profileEditAuthor, profileProfession);
-      user.getUserInfo();
+      const authorInfo=user.getUserInfo();
+      // Вставка значений в попап
+      popupNameAuthor.value=authorInfo.name;
+      popupLinkAuthor.value=authorInfo.profession;
       const popup = new Popup(popupAuthorContainer);
-      popup.open()
+      popup.open();
     });
 
   // Открытие попапа для добавления картинки
