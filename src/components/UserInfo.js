@@ -1,19 +1,17 @@
 
 export default class UserInfo {
-    constructor(author, profession, authornew, professionnew ) {
+    constructor(author, profession) {
         this._author = author;
         this._profession = profession;
-        this._authornew = authornew;
-        this._professionnew = professionnew;
     }
 
     getUserInfo(){
-        this._authornew.value = this._author.textContent;
-        this._professionnew.value = this._profession.textContent;
+        this._author.value = document.querySelector('.profile__edit-author').textContent;
+        this._profession.value = document.querySelector('.profile__profession').textContent;
     }
 
     setUserInfo(){
-        this._author.textContent = this._authornew.value;
-        this._profession.textContent = this._professionnew.value;
+        document.querySelector('.profile__edit-author').textContent = this._author.value;
+        document.querySelector('.profile__profession').textContent = this._profession.value;
     }
 }

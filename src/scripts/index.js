@@ -11,20 +11,14 @@ import  UserInfo  from '../components/UserInfo.js';
 const cardEl = document.querySelector('#photo-template').content.querySelector('.photo__card');
 const photoGrid = document.querySelector('.photo__grid');
 const clickEditButton = document.querySelector('.profile__edit-button');
-const profileEditAuthor = document.querySelector('.profile__edit-author');
-const profileProfession = document.querySelector('.profile__profession');
 const clickAddImageButton = document.querySelector('.profile__button');
 
-export const popup = document.querySelectorAll('.popup');
-
 const popupAddImageContainer = document.querySelector('#popup-addimage');
-export const clickAddImageCloseButton = popupAddImageContainer.querySelector('.popup__close-button');
 const formAddImageElement = popupAddImageContainer.querySelector('.popup__container');
 const popupNameAddImage = popupAddImageContainer.querySelector('#popup__name');
 const popupLinkAddImage = popupAddImageContainer.querySelector('#popup__link')
 
 const popupAuthorContainer = document.querySelector('#popup-author');
-export const clickAuthorCloseButton = popupAuthorContainer.querySelector('.popup__close-button');
 const formAuthorElement = popupAuthorContainer.querySelector('.popup__container');
 const popupNameAuthor = popupAuthorContainer.querySelector('#popup__name-author');
 const popupLinkAuthor = popupAuthorContainer.querySelector('#popup__link-author');
@@ -32,7 +26,8 @@ const popupLinkAuthor = popupAuthorContainer.querySelector('#popup__link-author'
 export const popupImage = document.querySelector('#popup-image');
 export const closeImage = popupImage.querySelector('.popup__close-image');
 export const image = popupImage.querySelector('.popup__image');
-export const imageDescription = popupImage.querySelector('.popup__description');
+
+export const closePopupByKeyboard = 'Escape';
 
 const popupAuthor = new Popup(popupAuthorContainer); 
 const popupAddImage = new Popup(popupAddImageContainer);
@@ -52,7 +47,7 @@ const cardsList = new Section({
 //Изменение данных в попапе с автором
 const formAuthor = new PopupWithForm(formAuthorElement,
     {handleFormSubmit: () => {
-      const usernew = new UserInfo (profileEditAuthor, profileProfession, popupNameAuthor, popupLinkAuthor);
+      const usernew = new UserInfo (popupNameAuthor, popupLinkAuthor);
       usernew.setUserInfo();
       const popup = new Popup(popupAuthorContainer);
       popup.close();
@@ -103,7 +98,7 @@ const valAddImage = new FormValidator(validationConfig, formAddImageElement);
 
   // Открытие попапа для изменения автора
     clickEditButton.addEventListener('click', () => {
-      const user = new UserInfo (profileEditAuthor, profileProfession, popupNameAuthor, popupLinkAuthor);
+      const user = new UserInfo (popupNameAuthor, popupLinkAuthor);
       user.getUserInfo();
       const popup = new Popup(popupAuthorContainer);
       popup.open()

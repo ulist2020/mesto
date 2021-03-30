@@ -1,5 +1,4 @@
-import {popupImage, closeImage, } from '../scripts/index.js';
-import Popup from './Popup.js';
+import {popupImage, closeImage } from '../scripts/index.js';
 
 export class Card {
     constructor(name, link, cardElement, handleCardClick) {
@@ -7,7 +6,6 @@ export class Card {
         this._link = link;
         this._cardElement = cardElement;
         this._handleCardClick = handleCardClick;
-        
     }
 
     //Добавляем данные в разметку
@@ -25,8 +23,7 @@ export class Card {
       }
     
       _closeLargeImage() {
-        const popup = new Popup(popupImage);
-        popup.close();
+        popupImage.classList.remove('popup_opened');
       }
 
       _deleteCard (){
@@ -44,7 +41,6 @@ export class Card {
           cardPlace.addEventListener('click', () => {
             this._openLargeImage();
           });
-      
 
         //Закрытие большой карточки
         closeImage.addEventListener('click', () => {
