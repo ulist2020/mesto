@@ -31,6 +31,15 @@ export default class Popup {
         }
     }
 
+    changeButtonName(name) {
+        this._oldButtonName = this._container.querySelector('.popup__button').textContent;
+        this._container.querySelector('.popup__button').textContent = name;
+    }
+
+    restoreButtonName() {
+        this._container.querySelector('.popup__button').textContent = this._oldButtonName;
+    }
+
     setEventListeners(){
         this._container.querySelector('.popup__close-button').addEventListener('click', () => this.close());
     }

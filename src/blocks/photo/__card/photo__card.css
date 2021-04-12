@@ -1,5 +1,7 @@
 .photo__card{
     position: relative;
+    display: flex;
+    flex-direction: column;
     background: #FFFFFF;
     border-radius: 10px;
     height: 361px;

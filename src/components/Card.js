@@ -1,11 +1,14 @@
 import {popupImage, closeImage } from '../scripts/constants.js';
 
 export class Card {
-    constructor(name, link, cardSelector, handleCardClick) {
+    constructor(name, link, likes, cardSelector, handleCardClick, deleteCardClick, handleCardLike) {
         this._name = name;
         this._link = link;
+        this._likes = likes;
         this._cardSelector = cardSelector;
         this._handleCardClick = handleCardClick;
+        this._deleteCardClick = deleteCardClick;
+        this._handleCardLike = handleCardLike;
     }
 
     //Добавляем данные в разметку
@@ -14,9 +17,14 @@ export class Card {
         this._newCard.querySelector('.photo__card-place').src = this._link;
         this._newCard.querySelector('.photo__card-discprition').textContent = this._name;
         this._newCard.querySelector('.photo__card-place').alt = this._name;
+        this._newCard.querySelector('.photo__like-counter').textContent = this._likes;
         this._setEventListeners();
         return this._newCard;
-      } 
+    } 
+
+      updateLikesCount(count) {
+        this._newCard.querySelector('.photo__like-counter').textContent = count;
+      }
 
       _openLargeImage() {
         this._handleCardClick();
@@ -26,15 +34,23 @@ export class Card {
         popupImage.classList.remove('popup_opened');
       }
 
-      _deleteCard (){
+      deleteCard (){
        this._newCard.remove();
        this._newCard = null;
       }
 
-      _clickLike (evt) {
-        evt.target.classList.toggle('photo__card-like_active');
+      setLiked() {
+        this._newCard.querySelector('.photo__card-like').classList.add('photo__card-like_active');
       }
      
+      unsetLiked() {
+        this._newCard.querySelector('.photo__card-like').classList.remove('photo__card-like_active');
+      }
+
+      removeDeleteButton() {
+      this._newCard.querySelector('.photo__delete-icon').remove();
+      }
+
       _setEventListeners() {
         //Открытие большой карточки
         const cardPlace = this._newCard.querySelector('.photo__card-place');
@@ -47,19 +63,18 @@ export class Card {
           this._closeLargeImage();
         });
         
-        //Удаление карточки
+       // Удаление карточки
         const deleteButton = this._newCard.querySelector('.photo__delete-icon');
-        deleteButton.addEventListener('click', (evt) => {
-            this._deleteCard(evt);
-          });
+        deleteButton.addEventListener('click', () => {
+          this._deleteCardClick();
+        });
 
         //Лайк
         const like = this._newCard.querySelector('.photo__card-like');
-        like.addEventListener('click', (evt) => {
-            this._clickLike(evt);
+        like.addEventListener('click', () => {
+            this._handleCardLike();
         });
-
-    }
+      }
 }
     
         
