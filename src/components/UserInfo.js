@@ -1,9 +1,9 @@
-import { popupNameAuthor, popupLinkAuthor } from '../scripts/constants.js';
-
 export default class UserInfo {
-    constructor(author, profession) {
+    constructor(author, profession, popupNameAuthor, popupLinkAuthor) {
         this._author = author;
         this._profession = profession;
+        this._popupNameAuthor = popupNameAuthor;
+        this._popupLinkAuthor = popupLinkAuthor;
     }
 
     getUserInfo(){
@@ -15,7 +15,7 @@ export default class UserInfo {
     }
 
     setUserInfo(){
-        this._author.textContent = popupNameAuthor.value;
-        this._profession.textContent = popupLinkAuthor.value;
+        this._author.textContent = this._popupNameAuthor.value;
+        this._profession.textContent = this._popupLinkAuthor.value;
     }
 }

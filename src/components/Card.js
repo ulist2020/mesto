@@ -1,7 +1,5 @@
-import {popupImage, closeImage } from '../scripts/constants.js';
-
 export class Card {
-    constructor(name, link, likes, cardSelector, handleCardClick, deleteCardClick, handleCardLike) {
+    constructor(name, link, likes, cardSelector, popupImage, closeImage, handleCardClick, deleteCardClick, handleCardLike) {
         this._name = name;
         this._link = link;
         this._likes = likes;
@@ -9,6 +7,8 @@ export class Card {
         this._handleCardClick = handleCardClick;
         this._deleteCardClick = deleteCardClick;
         this._handleCardLike = handleCardLike;
+        this._popupImage = popupImage;
+        this._closeImage = closeImage;
     }
 
     //Добавляем данные в разметку
@@ -31,7 +31,7 @@ export class Card {
       }
     
       _closeLargeImage() {
-        popupImage.classList.remove('popup_opened');
+        this._popupImage.classList.remove('popup_opened');
       }
 
       deleteCard (){
@@ -59,7 +59,7 @@ export class Card {
           });
 
         //Закрытие большой карточки
-        closeImage.addEventListener('click', () => {
+        this._closeImage.addEventListener('click', () => {
           this._closeLargeImage();
         });
         

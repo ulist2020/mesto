@@ -2,13 +2,19 @@ import '../pages/index.css';
 import {Card} from '../components/Card.js';
 import {Api} from '../components/Api.js';
 import {FormValidator} from '../components/FormValidator.js';
-import {popupImage, popupAuthorContainer, popupNameAuthor, popupLinkAuthor} from './constants.js';
 import Section from '../components/Section.js';
-import Popup from '../components/Popup.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupConfirm from '../components/PopupConfirm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import  UserInfo  from '../components/UserInfo.js';
+
+
+const popupAuthorContainer = document.querySelector('#popup-author');
+const popupNameAuthor = popupAuthorContainer.querySelector('#popup__name-author');
+const popupLinkAuthor = popupAuthorContainer.querySelector('#popup__link-author');
+
+const popupImage = document.querySelector('#popup-image');
+const closeImage = popupImage.querySelector('.popup__close-image');
 
 const cardEl = document.querySelector('#photo-template').content.querySelector('.photo__card');
 const photoGrid = document.querySelector('.photo__grid');
@@ -24,18 +30,15 @@ const popupUpdateContainer = popupUpdateAvatar.querySelector('.popup__update-con
 
 const popupAddImageContainer = document.querySelector('#popup-addimage');
 const formAddImageElement = popupAddImageContainer.querySelector('.popup__container');
-const popupNameAddImage = popupAddImageContainer.querySelector('#popup__name');
-const popupLinkAddImage = popupAddImageContainer.querySelector('#popup__link');
 
 const formAuthorElement = popupAuthorContainer.querySelector('.popup__container');
 
 const popupConfirm = document.querySelector('#popup-confirm');
 
-const popupAuthor = new Popup(popupAuthorContainer); 
-const popupAddImage = new Popup(popupAddImageContainer);
-  const confirm = new PopupConfirm(popupConfirm);
-
+const closePopupHotKey = 'Escape';
 const buttonLoadingName = 'Сохранение...';
+
+const confirm = new PopupConfirm(popupConfirm, closePopupHotKey);
 
 let userID='';
   
@@ -63,12 +66,12 @@ let userID='';
     const cardsList = new Section({
       items: result,
       renderer: (item) => {
-        const openLargeImage = new PopupWithImage(item.name, item.link, popupImage);
+        const openLargeImage = new PopupWithImage(item.name, item.link, popupImage, closePopupHotKey);
         const card = new Card(
           item.name, 
           item.link,
           item.likes.length,
-          cardEl, 
+          cardEl, popupImage, closeImage,
           () => openLargeImage.open(),
           //Удаление карточки 
           () => {
@@ -138,7 +141,7 @@ let userID='';
   });
 
 //Редактирование профиля
-const formAuthor = new PopupWithForm(formAuthorElement,
+const formAuthor = new PopupWithForm(popupAuthorContainer, closePopupHotKey, 
   {handleFormSubmit: (data) => {
     formAuthor.changeButtonName(buttonLoadingName);
     api.editUser(data)
@@ -146,31 +149,34 @@ const formAuthor = new PopupWithForm(formAuthorElement,
         profileEditAuthor.textContent = result.name;
         profileProfession.textContent = result.about;
         profileAvatar.src = result.avatar;
-        const popup = new Popup(popupAuthorContainer);
-        popup.close();
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
       })
       .finally(
-        () => formAuthor.restoreButtonName()
+        () => {
+          formAuthor.restoreButtonName();
+          formAuthor.close();
+        }
       ) 
    }
   })
     
   //Добавление новой карточки
-  const formAddImage = new PopupWithForm(formAddImageElement,
+  const formAddImage = new PopupWithForm(
+      popupAddImageContainer,
+      closePopupHotKey, 
       {handleFormSubmit: (data) => {
           formAddImage.changeButtonName(buttonLoadingName);
           api.addCard(data)
           .then((result) =>{ 
-            const openLargeImage = new PopupWithImage(result.name, result.link, popupImage);
-            const confirm = new PopupConfirm(popupConfirm);
+            const openLargeImage = new PopupWithImage(result.name, result.link, popupImage, closePopupHotKey);
+            const confirm = new PopupConfirm(popupConfirm, closePopupHotKey);
             const card = new Card(
               result.name, 
               result.link,
               result.likes.length,
-              cardEl, 
+              cardEl, popupImage, closeImage,
               () => openLargeImage.open(), 
               () => {
                 confirm.open(
@@ -221,33 +227,35 @@ const formAuthor = new PopupWithForm(formAuthorElement,
               card.removeDeleteButton();
             }
           photoGrid.prepend(cardElement);
-          const popup = new Popup(popupAddImageContainer);
-          popup.close();
         })
         .catch((err) => {
           console.log(err); // выведем ошибку в консоль
         })
         .finally(
-          () => formAddImage.restoreButtonName()
+          () => {
+            formAddImage.restoreButtonName();
+            formAddImage.close();
+          }
         ) 
         }
     });
 
 //Изменение аватара
-const formAvatar = new PopupWithForm(popupUpdateContainer,
+const formAvatar = new PopupWithForm(popupUpdateAvatar, closePopupHotKey, 
   {handleFormSubmit: (data) => {
     formAvatar.changeButtonName(buttonLoadingName);
     api.editAvatar(data.avatar)
     .then((result) =>{
         document.querySelector('.profile__avatar').src = result.avatar;
-        const popup = new Popup(popupUpdateAvatar);
-        popup.close();
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
       })
       .finally(
-        () => formAvatar.restoreButtonName()
+        () => {
+          formAvatar.restoreButtonName()
+          formAvatar.close();
+        }
       ) 
     }
   });
@@ -272,10 +280,6 @@ const valFormAvatar = new FormValidator(validationConfig, popupUpdateContainer);
     formAddImage.setEventListeners();
     formAvatar.setEventListeners();
 
-    //Слушатель клика иконке закрытия попапа
-    popupAuthor.setEventListeners();    
-    popupAddImage.setEventListeners();
-
     //Валидация форм
     valAuthorForm.enableValidation();
     valAddImage.enableValidation();
@@ -283,26 +287,23 @@ const valFormAvatar = new FormValidator(validationConfig, popupUpdateContainer);
 
     //Открытие попапа для изменения аватара
     profileAvatarUpdate.addEventListener('click', () => {
-      const popup = new Popup(popupUpdateAvatar);
-      popup.open();
+      formAvatar.open();
       popupUpdateAvatar.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
     });
 
   // Открытие попапа для изменения автора
     clickEditButton.addEventListener('click', () => {
-      const user = new UserInfo (profileEditAuthor, profileProfession);
+      const user = new UserInfo (profileEditAuthor, profileProfession, popupNameAuthor, popupLinkAuthor);
       const authorInfo=user.getUserInfo();
-      // Вставка значений в попап
-      popupNameAuthor.value=authorInfo.name;
-      popupLinkAuthor.value=authorInfo.profession;
-      const popup = new Popup(popupAuthorContainer);
-      popup.open();
+        // Вставка значений в попап
+        popupNameAuthor.value=authorInfo.name;
+        popupLinkAuthor.value=authorInfo.profession;
+        formAuthor.open();
     });
 
   // Открытие попапа для добавления картинки
     clickAddImageButton.addEventListener('click', () => {
-      const popup = new Popup(popupAddImageContainer);
-      popup.open();
+      formAddImage.open();
       popupAddImageContainer.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
     });
 
