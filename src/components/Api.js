@@ -13,13 +13,7 @@ export class Api {
                 'Content-Type': this._format
             }
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
+        .then(this._checkResponse)
     }
 
     //Загрузка карточек с сервера
@@ -30,13 +24,7 @@ export class Api {
                 'Content-Type': this._format
             }
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
+        .then(this._checkResponse)
     }
 
     //Редактирование профиля
@@ -52,13 +40,8 @@ export class Api {
                 about: data.profession
             })
     })
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse)
+
     }
 
     //Редактирование аватара
@@ -73,13 +56,8 @@ export class Api {
                 avatar: data
             })
     })
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse)
+
     }
 
     //Добавление новой карточки
@@ -95,14 +73,8 @@ export class Api {
                 link: data.link
             })
     })
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    }
+    .then(this._checkResponse)
+}
 
     //Удаление карточки
     deleteCard(id){
@@ -113,13 +85,7 @@ export class Api {
                     'Content-Type': this._format
                 },
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
+        .then(this._checkResponse)
         
     }
 
@@ -132,13 +98,7 @@ export class Api {
                     'Content-Type': this._format
                 },
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
+        .then(this._checkResponse)
     }
 
     //Удаление лайка
@@ -150,14 +110,16 @@ export class Api {
                     'Content-Type': this._format
                 },
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
+        .then(this._checkResponse)
+
     }
+    _checkResponse(res) {
+        if (res.ok) {
+            return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+    }
+
 }
 
     
