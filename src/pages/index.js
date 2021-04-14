@@ -150,7 +150,7 @@ const valFormAvatar = new FormValidator(validationConfig, popupUpdateContainer);
     //Открытие попапа для изменения аватара
     profileAvatarUpdate.addEventListener('click', () => {
       formAvatar.open();
-      popupUpdateAvatar.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
+      //popupUpdateAvatar.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
     });
 
   // Открытие попапа для изменения автора
@@ -165,7 +165,7 @@ const valFormAvatar = new FormValidator(validationConfig, popupUpdateContainer);
   // Открытие попапа для добавления картинки
     clickAddImageButton.addEventListener('click', () => {
       formAddImage.open();
-      popupAddImageContainer.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
+      //popupAddImageContainer.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
     });
 
     function createCard (result,cardEl,userID,confirm,openLargeImage) {
