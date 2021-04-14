@@ -14,9 +14,11 @@ export class Card {
     //Добавляем данные в разметку
     generateCard() {
         this._newCard = this._cardSelector.cloneNode(true);
-        this._newCard.querySelector('.photo__card-place').src = this._link;
+        this._photoCardPlace=this._newCard.querySelector('.photo__card-place');
+        this._photoCardLike=this._newCard.querySelector('.photo__card-like');
+        this._photoCardPlace.src = this._link;
         this._newCard.querySelector('.photo__card-discprition').textContent = this._name;
-        this._newCard.querySelector('.photo__card-place').alt = this._name;
+        this._photoCardPlace.alt = this._name;
         this._newCard.querySelector('.photo__like-counter').textContent = this._likesArray.length;
         this._setEventListeners();
         if (this._checkOurLike()) {
@@ -43,23 +45,18 @@ export class Card {
         this._newCard.querySelector('.photo__like-counter').textContent = this._likesArray.length;
       }
 
-      _openLargeImage() {
-        this._handleCardClick();
-      }
-    
-
       deleteCard (){
        this._newCard.remove();
        this._newCard = null;
       }
 
       setLiked() {
-        this._newCard.querySelector('.photo__card-like').classList.add('photo__card-like_active');
+        this._photoCardLike.classList.add('photo__card-like_active');
         this.isLiked=true;
       }
      
       unsetLiked() {
-        this._newCard.querySelector('.photo__card-like').classList.remove('photo__card-like_active');
+        this._photoCardLike.classList.remove('photo__card-like_active');
         this.isLiked=false;
       }
 
@@ -71,7 +68,7 @@ export class Card {
         //Открытие большой карточки
         const cardPlace = this._newCard.querySelector('.photo__card-place');
           cardPlace.addEventListener('click', () => {
-            this._openLargeImage();
+            this._handleCardClick();
           });
 
        // Удаление карточки
@@ -81,8 +78,7 @@ export class Card {
         });
 
         //Лайк
-        const like = this._newCard.querySelector('.photo__card-like');
-        like.addEventListener('click', () => {
+        this._photoCardLike.addEventListener('click', () => {
             this._handleCardLike();
         });
       }
