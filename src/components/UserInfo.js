@@ -18,7 +18,5 @@ export default class UserInfo {
         this._author.textContent = userData.name;
         this._profession.textContent = userData.about;
         this._avatar.src = userData.avatar;
-       // this._author.textContent = this._popupNameAuthor.value;
-       // this._profession.textContent = this._popupLinkAuthor.value;
     }
 }

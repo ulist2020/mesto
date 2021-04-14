@@ -14,47 +14,41 @@ import {popupAuthorContainer, popupNameAuthor, popupLinkAuthor, popupImage, card
 
 const confirm = new PopupConfirm(popupConfirm, closePopupHotKey);
 const user = new UserInfo (profileEditAuthor, profileProfession, profileAvatar);
+const openLargeImage = new PopupWithImage(popupImage, closePopupHotKey);
 
+const cardsList = new Section({
+  renderer: (item) => {
+    const card = createCard (item,cardEl,userID, confirm, openLargeImage);
+    const newCard = card.generateCard();
+    cardsList.addItem(newCard);
+    
+  },
+},
+  photoGrid);
 
 let userID='';
   
-  const api = new Api({
-    address: 'https://mesto.nomoreparties.co/v1/cohort-22',
-    token: 'fd83089e-563a-4f6d-a7ca-57bbc8360c89',
-    format: 'application/json'
-  }); 
+const api = new Api({
+  address: 'https://mesto.nomoreparties.co/v1/cohort-22',
+  token: 'fd83089e-563a-4f6d-a7ca-57bbc8360c89',
+  format: 'application/json'
+}); 
 
-  //Загрузка информации о пользователе с сервера
-  api.getUser()
-  .then((result) => {
-    user.setUserInfo(result);
-    //profileEditAuthor.textContent = result.name;
-    //profileProfession.textContent = result.about;
-    //profileAvatar.src = result.avatar;
-    userID = result._id;
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  }); 
 
-  //Загрузка карточек с сервера
+//Загрузка информации о пользователе и карточек с сервера
+Promise.all([
+  api.getUser(),
   api.getInitialCards()
-  .then((result) => {
-    const cardsList = new Section({
-      items: result,
-      renderer: (item) => {
-        const openLargeImage = new PopupWithImage(item.name, item.link, popupImage, closePopupHotKey);
-        const card = createCard (item,cardEl,userID, confirm, openLargeImage);
-        const newCard = card.generateCard();
-        cardsList.addItem(newCard);
-      },
-  },
-      photoGrid);
-    cardsList.renderItems();
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
+])
+    .then((result) => {
+      const [userData, initialCards] = result;
+      user.setUserInfo(userData);
+      userID = userData._id;
+      cardsList.renderItems(initialCards);
+    })
+    .catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    });
 
 //Редактирование профиля
 const formAuthor = new PopupWithForm(popupAuthorContainer, closePopupHotKey, 
@@ -62,9 +56,8 @@ const formAuthor = new PopupWithForm(popupAuthorContainer, closePopupHotKey,
     formAuthor.changeButtonName(buttonLoadingName);
     api.editUser(data)
       .then((result) =>{
-        profileEditAuthor.textContent = result.name;
-        profileProfession.textContent = result.about;
-        profileAvatar.src = result.avatar;
+        user.setUserInfo(result);
+        formAuthor.close();
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
@@ -72,7 +65,6 @@ const formAuthor = new PopupWithForm(popupAuthorContainer, closePopupHotKey,
       .finally(
         () => {
           formAuthor.restoreButtonName();
-          formAuthor.close();
         }
       ) 
    }
@@ -86,10 +78,12 @@ const formAuthor = new PopupWithForm(popupAuthorContainer, closePopupHotKey,
           formAddImage.changeButtonName(buttonLoadingName);
           api.addCard(data)
           .then((result) =>{ 
-            const openLargeImage = new PopupWithImage(result.name, result.link, popupImage, closePopupHotKey);
+           // cardsList.renderItems(result);
+           // const openLargeImage = new PopupWithImage(result.name, result.link, popupImage, closePopupHotKey);
             const card = createCard (result,cardEl,userID, confirm,openLargeImage);
             const cardElement = card.generateCard();
-          photoGrid.prepend(cardElement);
+            cardsList.prepend(cardElement);
+            formAddImage.close();
         })
         .catch((err) => {
           console.log(err); // выведем ошибку в консоль
@@ -97,7 +91,6 @@ const formAuthor = new PopupWithForm(popupAuthorContainer, closePopupHotKey,
         .finally(
           () => {
             formAddImage.restoreButtonName();
-            formAddImage.close();
           }
         ) 
         }
@@ -110,8 +103,9 @@ const formAvatar = new PopupWithForm(popupUpdateAvatar, closePopupHotKey,
     formAvatar.changeButtonName(buttonLoadingName);
     api.editAvatar(data.avatar)
     .then((result) =>{
-      user.setUserInfo(result);
+        user.setUserInfo(result);
         //document.querySelector('.profile__avatar').src = result.avatar;
+        formAvatar.close();
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
@@ -119,7 +113,6 @@ const formAvatar = new PopupWithForm(popupUpdateAvatar, closePopupHotKey,
       .finally(
         () => {
           formAvatar.restoreButtonName()
-          formAvatar.close();
         }
       ) 
     }
@@ -139,7 +132,7 @@ const valAuthorForm = new FormValidator(validationConfig, formAuthorElement);
 const valAddImage = new FormValidator(validationConfig, formAddImageElement);
 const valFormAvatar = new FormValidator(validationConfig, popupUpdateContainer);
 // Создаем пустой попап, чтобы повесить закрытие на оверлей или Esc
-const openLargeImage = new PopupWithImage(null, null, popupImage, closePopupHotKey);
+//const openLargeImage = new PopupWithImage(null, null, popupImage, closePopupHotKey);
   
 
     //Изменение данных в попапах
@@ -147,6 +140,7 @@ const openLargeImage = new PopupWithImage(null, null, popupImage, closePopupHotK
     formAddImage.setEventListeners();
     formAvatar.setEventListeners();
     openLargeImage.setEventListeners();
+    confirm.setEventListeners();
 
     //Валидация форм
     valAuthorForm.enableValidation();
@@ -156,7 +150,7 @@ const openLargeImage = new PopupWithImage(null, null, popupImage, closePopupHotK
     //Открытие попапа для изменения аватара
     profileAvatarUpdate.addEventListener('click', () => {
       formAvatar.open();
-      popupUpdateAvatar.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
+      //popupUpdateAvatar.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
     });
 
   // Открытие попапа для изменения автора
@@ -171,7 +165,7 @@ const openLargeImage = new PopupWithImage(null, null, popupImage, closePopupHotK
   // Открытие попапа для добавления картинки
     clickAddImageButton.addEventListener('click', () => {
       formAddImage.open();
-      popupAddImageContainer.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
+      //popupAddImageContainer.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
     });
 
     function createCard (result,cardEl,userID,confirm,openLargeImage) {
@@ -180,7 +174,7 @@ const openLargeImage = new PopupWithImage(null, null, popupImage, closePopupHotK
         userID,
         cardEl,
         // Обработчик открытия большого изображения
-        () => openLargeImage.open(), 
+        () => openLargeImage.open(result.name,result.link), 
         // Обработчик открытия попапа на удаления
         () => {
           confirm.open(
@@ -188,11 +182,13 @@ const openLargeImage = new PopupWithImage(null, null, popupImage, closePopupHotK
               () => {
                 confirm.changeButtonName(buttonLoadingName);
                 api.deleteCard(result._id)
-                .then(() => card.deleteCard())
+                .then(() => {
+                  card.deleteCard();
+                  confirm.close();
+                })
                 .catch(err => console.log('Ошибка при удалении'))
                 .finally(() => {
-                  confirm.close();
-                  confirm.restoreButtonName()
+                  confirm.restoreButtonName();
                 })
               }
             }

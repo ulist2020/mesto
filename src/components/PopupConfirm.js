@@ -10,7 +10,6 @@ export default class PopupConfirm extends Popup {
     handler(evt) {
         evt.preventDefault();
         this._handleDeleteCard();
-        this._container.removeEventListener('submit', this._handleSubmit);
     }
 
     setEventListeners(){
@@ -20,10 +19,5 @@ export default class PopupConfirm extends Popup {
     open({handleDeleteCard}) {
         super.open();
         this._handleDeleteCard = handleDeleteCard;
-        this.setEventListeners();
-    }
-    close() {
-        super.close();
-        this._container.removeEventListener('submit', this._handleSubmit);
     }
 }
