@@ -43,6 +43,7 @@ let userID='';
     const cardsList = new Section({
       items: result,
       renderer: (item) => {
+        // тест
         const openLargeImage = new PopupWithImage(item.name, item.link, popupImage, closePopupHotKey);
         const card = createCard (item,cardEl,userID, confirm, openLargeImage);
         const newCard = card.generateCard();
