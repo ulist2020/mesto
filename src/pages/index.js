@@ -18,44 +18,35 @@ const user = new UserInfo (profileEditAuthor, profileProfession, profileAvatar);
 
 let userID='';
   
-  const api = new Api({
-    address: 'https://mesto.nomoreparties.co/v1/cohort-22',
-    token: 'fd83089e-563a-4f6d-a7ca-57bbc8360c89',
-    format: 'application/json'
-  }); 
+const api = new Api({
+  address: 'https://mesto.nomoreparties.co/v1/cohort-22',
+  token: 'fd83089e-563a-4f6d-a7ca-57bbc8360c89',
+  format: 'application/json'
+}); 
 
-  //Загрузка информации о пользователе с сервера
-  api.getUser()
-  .then((result) => {
-    user.setUserInfo(result);
-    //profileEditAuthor.textContent = result.name;
-    //profileProfession.textContent = result.about;
-    //profileAvatar.src = result.avatar;
-    userID = result._id;
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  }); 
-
-  //Загрузка карточек с сервера
+//Загрузка информации о пользователе и карточек с сервера
+Promise.all([
+  api.getUser(),
   api.getInitialCards()
-  .then((result) => {
-    const cardsList = new Section({
-      items: result,
-      renderer: (item) => {
-        // тест
-        const openLargeImage = new PopupWithImage(item.name, item.link, popupImage, closePopupHotKey);
-        const card = createCard (item,cardEl,userID, confirm, openLargeImage);
-        const newCard = card.generateCard();
-        cardsList.addItem(newCard);
-      },
-  },
-      photoGrid);
-    cardsList.renderItems();
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
+])
+    .then((result) => {
+      user.setUserInfo(result[0]);
+      userID = result[0]._id;
+      const cardsList = new Section({
+        items: result[1],
+        renderer: (item) => {
+          const openLargeImage = new PopupWithImage(item.name, item.link, popupImage, closePopupHotKey);
+          const card = createCard (item,cardEl,userID, confirm, openLargeImage);
+          const newCard = card.generateCard();
+          cardsList.addItem(newCard);
+        },
+    },
+        photoGrid);
+      cardsList.renderItems();
+    })
+    .catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    });
 
 //Редактирование профиля
 const formAuthor = new PopupWithForm(popupAuthorContainer, closePopupHotKey, 
@@ -148,6 +139,7 @@ const openLargeImage = new PopupWithImage(null, null, popupImage, closePopupHotK
     formAddImage.setEventListeners();
     formAvatar.setEventListeners();
     openLargeImage.setEventListeners();
+    confirm.setEventListeners();
 
     //Валидация форм
     valAuthorForm.enableValidation();

@@ -10,14 +10,10 @@ export default class Popup {
   
     open() {
         this._container.classList.add('popup_opened');
-        // document.addEventListener('keydown', this._handleEscCl);
-        //this._container.addEventListener('click', this._closeByOver);
     }
   
     close() {
         this._container.classList.remove('popup_opened');
-        //document.removeEventListener('keydown', this._handleEscCl);
-        //this._container.removeEventListener('click', this._closeByOver);
     }
 
     _handleEscClose(evt){
