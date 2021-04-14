@@ -1,21 +1,22 @@
 export default class UserInfo {
-    constructor(author, profession, popupNameAuthor, popupLinkAuthor) {
+    constructor(author, profession, avatar) {
         this._author = author;
         this._profession = profession;
-        this._popupNameAuthor = popupNameAuthor;
-        this._popupLinkAuthor = popupLinkAuthor;
+        this._avatar = avatar;
     }
 
     getUserInfo(){
         const result = {
             name: this._author.textContent,
-            profession: this._profession.textContent
+            profession: this._profession.textContent,
+            avatar: this._avatar.src
         }; 
         return result;
     }
 
-    setUserInfo(){
-        this._author.textContent = this._popupNameAuthor.value;
-        this._profession.textContent = this._popupLinkAuthor.value;
+    setUserInfo(userData){
+        this._author.textContent = userData.name;
+        this._profession.textContent = userData.about;
+        this._avatar.src = userData.avatar;
     }
 }

@@ -8,137 +8,47 @@ import PopupConfirm from '../components/PopupConfirm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import  UserInfo  from '../components/UserInfo.js';
 
-
-const popupAuthorContainer = document.querySelector('#popup-author');
-const popupNameAuthor = popupAuthorContainer.querySelector('#popup__name-author');
-const popupLinkAuthor = popupAuthorContainer.querySelector('#popup__link-author');
-
-const popupImage = document.querySelector('#popup-image');
-const closeImage = popupImage.querySelector('.popup__close-image');
-
-const cardEl = document.querySelector('#photo-template').content.querySelector('.photo__card');
-const photoGrid = document.querySelector('.photo__grid');
-const profileEditAuthor = document.querySelector('.profile__edit-author');
-const profileProfession = document.querySelector('.profile__profession');
-const clickEditButton = document.querySelector('.profile__edit-button');
-const clickAddImageButton = document.querySelector('.profile__button');
-const profileAvatar = document.querySelector('.profile__avatar');
-const profileAvatarUpdate = document.querySelector('.profile__avatar-update');
-
-const popupUpdateAvatar = document.querySelector('#popup-update-avatar');
-const popupUpdateContainer = popupUpdateAvatar.querySelector('.popup__update-container');
-
-const popupAddImageContainer = document.querySelector('#popup-addimage');
-const formAddImageElement = popupAddImageContainer.querySelector('.popup__container');
-
-const formAuthorElement = popupAuthorContainer.querySelector('.popup__container');
-
-const popupConfirm = document.querySelector('#popup-confirm');
-
-const closePopupHotKey = 'Escape';
-const buttonLoadingName = 'Сохранение...';
+import {popupAuthorContainer, popupNameAuthor, popupLinkAuthor, popupImage, cardEl, photoGrid, profileEditAuthor, profileProfession,
+  clickEditButton, clickAddImageButton, profileAvatar, profileAvatarUpdate, popupUpdateAvatar, popupUpdateContainer, popupAddImageContainer,
+  formAddImageElement, formAuthorElement, popupConfirm, closePopupHotKey, buttonLoadingName } from '../utils/constants.js';
 
 const confirm = new PopupConfirm(popupConfirm, closePopupHotKey);
+const user = new UserInfo (profileEditAuthor, profileProfession, profileAvatar);
+const openLargeImage = new PopupWithImage(popupImage, closePopupHotKey);
+
+const cardsList = new Section({
+  renderer: (item) => {
+    const card = createCard (item,cardEl,userID, confirm, openLargeImage);
+    const newCard = card.generateCard();
+    cardsList.addItem(newCard);
+    
+  },
+},
+  photoGrid);
 
 let userID='';
   
-  const api = new Api({
-    address: 'https://mesto.nomoreparties.co/v1/cohort-22',
-    token: 'fd83089e-563a-4f6d-a7ca-57bbc8360c89',
-    format: 'application/json'
-  }); 
+const api = new Api({
+  address: 'https://mesto.nomoreparties.co/v1/cohort-22',
+  token: 'fd83089e-563a-4f6d-a7ca-57bbc8360c89',
+  format: 'application/json'
+}); 
 
-  //Загрузка информации о пользователе с сервера
-  api.getUserInfo()
-  .then((result) => {
-    profileEditAuthor.textContent = result.name;
-    profileProfession.textContent = result.about;
-    profileAvatar.src = result.avatar;
-    userID = result._id;
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  }); 
 
-  //Загрузка карточек с сервера
+//Загрузка информации о пользователе и карточек с сервера
+Promise.all([
+  api.getUser(),
   api.getInitialCards()
-  .then((result) => {
-    const cardsList = new Section({
-      items: result,
-      renderer: (item) => {
-        const openLargeImage = new PopupWithImage(item.name, item.link, popupImage, closePopupHotKey);
-        const card = new Card(
-          item.name, 
-          item.link,
-          item.likes.length,
-          cardEl, popupImage, closeImage,
-          () => openLargeImage.open(),
-          //Удаление карточки 
-          () => {
-            confirm.open(
-              {handleDeleteCard: 
-                () => {
-                  api.deleteCard(item._id)
-                  .then(() => card.deleteCard())
-                  .catch(err => console.log('Ошибка при удалении'))
-                }
-              }
-            )
-          },
-          // Обработчик лайков
-          () => {
-            // Для обновления в реальном времени счетчика кликов
-            api.getInitialCards()
-            .then((cardsArr) => {
-              // Находим карту, которую лайкнули
-              const thisCard = cardsArr.find(
-                (element) => element._id === item._id
-              );
-              // Проверяем, ставили ли мы лайки
-              const likeFlag = thisCard.likes.some(
-                (element) => element._id === userID
-              )
-              // Если один из лайков - наш, то ставим лайк на сервере, 
-              if (likeFlag) {
-                api.removeLike(item._id)
-                .then((result) => {
-                  card.unsetLiked();
-                  card.updateLikesCount(result.likes.length);
-                })
-                .catch(err => console.log('Ошибка при удалении'))
-              } else {
-                api.addLike(item._id)
-                .then((result) => {
-                  card.setLiked();
-                  card.updateLikesCount(result.likes.length);
-                })
-                .catch(err => console.log('Ошибка при добавлении'))
-              }
-            })
-          }
-        );
-        const newCard = card.generateCard();
-        //Удаляем значок удаления с чужих карточек
-        if (!(userID === item.owner._id)) {
-          card.removeDeleteButton();
-        }
-        const likeFlag = item.likes.some(
-          (element) => element._id === userID
-        );
-        if (likeFlag) {
-          card.setLiked()
-        } else {
-          card.unsetLiked()
-        }
-        cardsList.addItem(newCard);
-      },
-  },
-      photoGrid);
-    cardsList.renderItems();
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
+])
+    .then((result) => {
+      const [userData, initialCards] = result;
+      user.setUserInfo(userData);
+      userID = userData._id;
+      cardsList.renderItems(initialCards);
+    })
+    .catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    });
 
 //Редактирование профиля
 const formAuthor = new PopupWithForm(popupAuthorContainer, closePopupHotKey, 
@@ -146,9 +56,8 @@ const formAuthor = new PopupWithForm(popupAuthorContainer, closePopupHotKey,
     formAuthor.changeButtonName(buttonLoadingName);
     api.editUser(data)
       .then((result) =>{
-        profileEditAuthor.textContent = result.name;
-        profileProfession.textContent = result.about;
-        profileAvatar.src = result.avatar;
+        user.setUserInfo(result);
+        formAuthor.close();
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
@@ -156,7 +65,6 @@ const formAuthor = new PopupWithForm(popupAuthorContainer, closePopupHotKey,
       .finally(
         () => {
           formAuthor.restoreButtonName();
-          formAuthor.close();
         }
       ) 
    }
@@ -170,63 +78,12 @@ const formAuthor = new PopupWithForm(popupAuthorContainer, closePopupHotKey,
           formAddImage.changeButtonName(buttonLoadingName);
           api.addCard(data)
           .then((result) =>{ 
-            const openLargeImage = new PopupWithImage(result.name, result.link, popupImage, closePopupHotKey);
-            const confirm = new PopupConfirm(popupConfirm, closePopupHotKey);
-            const card = new Card(
-              result.name, 
-              result.link,
-              result.likes.length,
-              cardEl, popupImage, closeImage,
-              () => openLargeImage.open(), 
-              () => {
-                confirm.open(
-                  {handleDeleteCard: 
-                    () => {
-                      api.deleteCard(result._id)
-                      .then(() => card.deleteCard())
-                      .catch(err => console.log('Ошибка при удалении'))
-                    }
-                  }
-                )
-              },
-              // Обработчик лайков
-              () => {
-            // Для обновления в реальном времени счетчика кликов
-            api.getInitialCards()
-                .then((cardsArr) => {
-                  // Находим карту, которую лайкнули
-                  const thisCard = cardsArr.find(
-                    (element) => element._id === result._id
-                  );
-                  // Проверяем, ставили ли мы лайки
-                  const likeFlag = thisCard.likes.some(
-                    (element) => element._id === userID
-                  )
-                  // Если один из лайков - наш, то ставим лайк на сервере, 
-                  if (likeFlag) {
-                    api.removeLike(result._id)
-                    .then((result) => {
-                      card.unsetLiked();
-                      card.updateLikesCount(result.likes.length);
-                    })
-                    .catch(err => console.log('Ошибка при удалении'))
-                  } else {
-                    api.addLike(result._id)
-                    .then((result) => {
-                      card.setLiked();
-                      card.updateLikesCount(result.likes.length);
-                    })
-                    .catch(err => console.log('Ошибка при добавлении'))
-                  }
-                })
-              }
-                );
+           // cardsList.renderItems(result);
+           // const openLargeImage = new PopupWithImage(result.name, result.link, popupImage, closePopupHotKey);
+            const card = createCard (result,cardEl,userID, confirm,openLargeImage);
             const cardElement = card.generateCard();
-            //Удаляем значок удаления с чужих карточек
-            if (!(userID === result.owner._id)) {
-              card.removeDeleteButton();
-            }
-          photoGrid.prepend(cardElement);
+            cardsList.prepend(cardElement);
+            formAddImage.close();
         })
         .catch((err) => {
           console.log(err); // выведем ошибку в консоль
@@ -234,11 +91,11 @@ const formAuthor = new PopupWithForm(popupAuthorContainer, closePopupHotKey,
         .finally(
           () => {
             formAddImage.restoreButtonName();
-            formAddImage.close();
           }
         ) 
         }
     });
+
 
 //Изменение аватара
 const formAvatar = new PopupWithForm(popupUpdateAvatar, closePopupHotKey, 
@@ -246,7 +103,9 @@ const formAvatar = new PopupWithForm(popupUpdateAvatar, closePopupHotKey,
     formAvatar.changeButtonName(buttonLoadingName);
     api.editAvatar(data.avatar)
     .then((result) =>{
-        document.querySelector('.profile__avatar').src = result.avatar;
+        user.setUserInfo(result);
+        //document.querySelector('.profile__avatar').src = result.avatar;
+        formAvatar.close();
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
@@ -254,7 +113,6 @@ const formAvatar = new PopupWithForm(popupUpdateAvatar, closePopupHotKey,
       .finally(
         () => {
           formAvatar.restoreButtonName()
-          formAvatar.close();
         }
       ) 
     }
@@ -273,12 +131,16 @@ const validationConfig = {
 const valAuthorForm = new FormValidator(validationConfig, formAuthorElement);
 const valAddImage = new FormValidator(validationConfig, formAddImageElement);
 const valFormAvatar = new FormValidator(validationConfig, popupUpdateContainer);
+// Создаем пустой попап, чтобы повесить закрытие на оверлей или Esc
+//const openLargeImage = new PopupWithImage(null, null, popupImage, closePopupHotKey);
   
 
     //Изменение данных в попапах
     formAuthor.setEventListeners();
     formAddImage.setEventListeners();
     formAvatar.setEventListeners();
+    openLargeImage.setEventListeners();
+    confirm.setEventListeners();
 
     //Валидация форм
     valAuthorForm.enableValidation();
@@ -288,13 +150,12 @@ const valFormAvatar = new FormValidator(validationConfig, popupUpdateContainer);
     //Открытие попапа для изменения аватара
     profileAvatarUpdate.addEventListener('click', () => {
       formAvatar.open();
-      popupUpdateAvatar.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
+      //popupUpdateAvatar.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
     });
 
   // Открытие попапа для изменения автора
     clickEditButton.addEventListener('click', () => {
-      const user = new UserInfo (profileEditAuthor, profileProfession, popupNameAuthor, popupLinkAuthor);
-      const authorInfo=user.getUserInfo();
+      const authorInfo = user.getUserInfo();
         // Вставка значений в попап
         popupNameAuthor.value=authorInfo.name;
         popupLinkAuthor.value=authorInfo.profession;
@@ -304,10 +165,58 @@ const valFormAvatar = new FormValidator(validationConfig, popupUpdateContainer);
   // Открытие попапа для добавления картинки
     clickAddImageButton.addEventListener('click', () => {
       formAddImage.open();
-      popupAddImageContainer.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
+      //popupAddImageContainer.querySelector(validationConfig.submitButtonSelector).classList.add(validationConfig.inactiveButtonClass)
     });
 
-    
+    function createCard (result,cardEl,userID,confirm,openLargeImage) {
+      const card = new Card(
+        result,
+        userID,
+        cardEl,
+        // Обработчик открытия большого изображения
+        () => openLargeImage.open(result.name,result.link), 
+        // Обработчик открытия попапа на удаления
+        () => {
+          confirm.open(
+            {handleDeleteCard: 
+              () => {
+                confirm.changeButtonName(buttonLoadingName);
+                api.deleteCard(result._id)
+                .then(() => {
+                  card.deleteCard();
+                  confirm.close();
+                })
+                .catch(err => console.log('Ошибка при удалении'))
+                .finally(() => {
+                  confirm.restoreButtonName();
+                })
+              }
+            }
+          )
+        },
+        // Обработчик нажатия на сердце
+        () => {
+          // Для обновления в реальном времени счетчика кликов
+            
+            if (card.isLiked) {
+              api.removeLike(result._id)
+              .then((result) => {
+                card.unsetLiked();
+                card.updateLikes(result.likes);
+              })
+              .catch(err => console.log('Ошибка при удалении'))
+            } else {
+              api.addLike(result._id)
+              .then((result) => {
+                card.setLiked();
+                card.updateLikes(result.likes);
+              })
+              .catch(err => console.log('Ошибка при добавлении'))
+            }
+        }
+      );
+      return card;
+    }
     
     
 
