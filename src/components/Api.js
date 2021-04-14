@@ -6,7 +6,7 @@ export class Api {
     }
 
     //Загрузка информации о пользователе с сервера
-    getUserInfo(){
+    getUser(){
         return fetch(`${this._address}/users/me`, {
             headers: {
                 authorization: this._token,

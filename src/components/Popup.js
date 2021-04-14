@@ -1,4 +1,3 @@
-//import {closePopupHotKey } from '../scripts/constants.js';
 
 export default class Popup {
     constructor(containerSelector, closePopupHotKey) {
@@ -11,14 +10,14 @@ export default class Popup {
   
     open() {
         this._container.classList.add('popup_opened');
-        document.addEventListener('keydown', this._handleEscCl);
-        this._container.addEventListener('click', this._closeByOver);
+        // document.addEventListener('keydown', this._handleEscCl);
+        //this._container.addEventListener('click', this._closeByOver);
     }
   
     close() {
         this._container.classList.remove('popup_opened');
-        document.removeEventListener('keydown', this._handleEscCl);
-        this._container.removeEventListener('click', this._closeByOver);
+        //document.removeEventListener('keydown', this._handleEscCl);
+        //this._container.removeEventListener('click', this._closeByOver);
     }
 
     _handleEscClose(evt){
@@ -30,7 +29,6 @@ export default class Popup {
     _closeByOverlay (evt) {
         if(evt.target.classList.contains('popup')){
             this.close();
-        //console.log('123');
         }
     }
 
@@ -45,6 +43,8 @@ export default class Popup {
 
     setEventListeners(){
         this._container.querySelector('.popup__close-button').addEventListener('click', this._close);
+        this._container.addEventListener('click', this._closeByOver);
+        document.addEventListener('keydown', this._handleEscCl);
     }
   }
   
