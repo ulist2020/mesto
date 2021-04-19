@@ -17,10 +17,10 @@ _Учебное задание: научиться писать современ
 * сборка проекта с помощью Webpack.  
 
 ## Используемые технологии
-
-JavaScript  
-HTML   
-CSS  
+  
+HTML     
+CSS   
+JavaScript    
 Node.js  
 
 ### Посмотреть проект: [Github-pages](https://ulist2020.github.io/mesto)
